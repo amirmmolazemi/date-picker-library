@@ -57,16 +57,39 @@
             }
         }
 
+
         &__months {
             display: grid;
             justify-content: space-between;
+            direction: ltr;
             grid-template-columns: repeat(3, 90px);
             grid-template-rows: repeat(4, 55px);
             gap: 12px;
+            flex: 1;
+            overflow-y: auto;
+            max-height: 256px;
+            padding-right: 12px;
+
+            &::-webkit-scrollbar {
+                width: 4px;
+            }
+
+            &::-webkit-scrollbar-track {
+                border-radius: 10px;
+                background-color: $primary-200;
+                border-left: 1px solid white;
+                border-right: 1px solid white;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                border-radius: 4px;
+                background-color: $primary-400;
+            }
 
             &--month {
                 border: 1px solid $gray-200;
                 border-radius: 10px;
+                height: 55px;
                 display: flex;
                 justify-content: center;
                 align-items: center;
