@@ -1,10 +1,9 @@
 <script setup>
-// import DatePicker from "./components/DatePicker.vue";
-import MonthPicker from "./components/MonthPicker.vue";
+import DatePicker from "./components/DatePicker.vue";
 </script>
 
 <template>
-  <month-picker />
+  <date-picker />
 </template>
 
 <style lang="scss">
