@@ -1,11 +1,23 @@
 <script setup>
 import { computed, ref, watch } from "vue";
+import { createCalendarEngine } from "@/composables/useCalenderEngine";
+import { langDates } from "@/constants/langDates";
 import ArrowIcon from "./icons/arrow-icon.vue";
 import CloseIcon from "@/components/icons/close-icon.vue";
 import chevronIcon from "@/components/icons/chevron-icon.vue";
 import BaseButton from "@/components/ui/base-button.vue";
-import { langDates } from "@/constants/langDates";
-import { createCalendarEngine } from "@/composables/useCalenderEngine";
+import englishToPersianDigit from "@/utils/englishToPersianDigit";
+
+const props = defineProps({
+    startYear: {
+        type: Number,
+        default: 1310
+    },
+    endYear: {
+        type: Number,
+        default: 1404
+    },
+});
 
 const showMonths = ref(false);
 const showyears = ref(false);
@@ -19,8 +31,16 @@ const months = computed(() => langDates.langs[activeLang.value].months);
 const adapter = computed(() => langDates.langs[activeLang.value].adaptor)
 const currentMonthText = computed(() => langDates.langs[activeLang.value].months[currentMonth.value - 1])
 const engine = createCalendarEngine(adapter.value, currentYear.value, currentMonth.value);
-console.log(engine.grid.value);
 
+const years = computed(() => {
+    const start = props.startYear;
+    const end = props.endYear !== null ? props.endYear : (props.startYear + props.yearRange - 1);
+    const yearsList = [];
+    for (let year = start; year <= end; year++) {
+        yearsList.push(year);
+    }
+    return yearsList;
+});
 
 watch([currentMonth, currentYear], () => {
     engine.setMonth(currentMonth.value);
@@ -37,10 +57,13 @@ const handleMonthClick = (index) => {
     showMonths.value = false;
 };
 
-const clickHandler = () => {
-    console.log(`1404/${currentMonth.value}/${currentDay.value}`)
-}
+const handleYearClick = (year) => {
+    currentYear.value = year;
+    showyears.value = false;
+    showMonths.value = true;
+};
 
+const clickHandler = () => console.log(`${currentYear.value}/${currentMonth.value}/${currentDay.value}`);
 </script>
 
 <template>
@@ -51,12 +74,12 @@ const clickHandler = () => {
         </header>
         <div class="container__content">
             <div class="container__content__filter" v-if="!showyears">
-                <div class="container__content__filter--item" @click="showMonths = true">
+                <div class="container__content__filter--item" @click="showMonths = true, showyears = false">
                     <span>{{ currentMonthText }}</span>
                     <chevron-icon />
                 </div>
-                <div class="container__content__filter--item" @click="showyears = true">
-                    <span>{{ currentYear }}</span>
+                <div class="container__content__filter--item" @click="showyears = true, showMonths = false">
+                    <span>{{ englishToPersianDigit(currentYear) }}</span>
                     <chevron-icon />
                 </div>
             </div>
@@ -65,7 +88,7 @@ const clickHandler = () => {
                     <arrow-icon />
                 </div>
                 <div class="container__content__filter--item">
-                    <span>1400</span>
+                    <span>{{ englishToPersianDigit(currentYear) }}</span>
                 </div>
                 <div class="container__content__filter--item">
                     <arrow-icon />
@@ -77,16 +100,23 @@ const clickHandler = () => {
                 </span>
             </div>
             <div class="container__content__days" v-if="!showMonths && !showyears">
-                <div class="container__content__days--day" v-for="(cell, i) in engine.grid.value"
-                    :class="{ 'selected': currentDay === cell.day && cell.current }" :key="i"
-                    @click="handleDayClick(cell)">
-                    {{ cell.day }}
+                <div class="container__content__days--day" v-for="(cell, i) in engine.grid.value" :class="{
+                    'selected': currentDay === cell.day && cell.current,
+                    'not-current': !cell.current
+                }" :key="i" @click="handleDayClick(cell)">
+                    {{ englishToPersianDigit(cell.day) }}
                 </div>
             </div>
-            <div class="container__content__months" v-if="showMonths || showyears">
+            <div class="container__content__months" v-if="showMonths">
                 <div class="container__content__months--month" v-for="(month, index) in months" :key="month"
                     :class="{ 'selected': currentMonth - 1 === index }" @click="handleMonthClick(index)">
                     {{ month }}
+                </div>
+            </div>
+            <div class="container__content__years" v-if="showyears">
+                <div class="container__content__years--year" v-for="year in years" :key="year"
+                    :class="{ 'selected': currentYear === year }" @click="handleYearClick(year)">
+                    {{ englishToPersianDigit(year) }}
                 </div>
             </div>
             <base-button text="تایید" @click="clickHandler" />
@@ -194,24 +224,9 @@ const clickHandler = () => {
             flex: 1;
             overflow-y: auto;
             max-height: 256px;
-            // padding-right: 12px;
+            padding-right: 12px;
+            direction: ltr;
             margin-bottom: 4px;
-
-            &::-webkit-scrollbar {
-                width: 4px;
-            }
-
-            &::-webkit-scrollbar-track {
-                border-radius: 10px;
-                background-color: $primary-200;
-                border-left: 1px solid white;
-                border-right: 1px solid white;
-            }
-
-            &::-webkit-scrollbar-thumb {
-                border-radius: 4px;
-                background-color: $primary-400;
-            }
 
             &--month {
                 border: 1px solid $gray-200;
@@ -228,6 +243,30 @@ const clickHandler = () => {
                     background-color: $primary-main;
                     color: $text-dark-primary;
                 }
+            }
+        }
+
+        &__years {
+            @extend .container__content__months;
+
+            &--year {
+                @extend .container__content__months--month
+            }
+
+            &::-webkit-scrollbar {
+                width: 4px;
+            }
+
+            &::-webkit-scrollbar-track {
+                border-radius: 10px;
+                background-color: $primary-200;
+                border-left: 1px solid white;
+                border-right: 1px solid white;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                border-radius: 4px;
+                background-color: $primary-400;
             }
         }
 
@@ -265,6 +304,18 @@ const clickHandler = () => {
                     background-color: $primary-main;
                     color: $text-dark-primary;
                 }
+
+                &.selected:hover {
+                    background-color: $primary-main;
+                }
+
+                &.not-current {
+                    color: $text-light-base2;
+                }
+            }
+
+            &--day:hover {
+                background-color: $primary-200;
             }
         }
     }

@@ -35,11 +35,11 @@ export const createCalendarEngine = (adapter, initialYear, initialMonth) => {
       cells.push({ year: year.value, month: month.value, day, current: true });
     }
 
-    // const nextMonth = adapter.getNextMonth(year.value, month.value);
-    // const remainingDayOftheMonth = 35 - cells.length;
-    // for (let i = 1; i <= remainingDayOftheMonth; i++) {
-    //   cells.push({ year: nextMonth.year, month: nextMonth.month, day: i, current: false });
-    // }
+    const nextMonth = adapter.getNextMonth(year.value, month.value);
+    const remainingDayOftheMonth = 35 - cells.length;
+    for (let i = 1; i <= remainingDayOftheMonth; i++) {
+      cells.push({ year: nextMonth.year, month: nextMonth.month, day: i, current: false });
+    }
 
     return cells.slice(0, 35);
   });
