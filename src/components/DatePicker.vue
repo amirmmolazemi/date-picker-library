@@ -86,7 +86,7 @@ import BaseButton from "@/components/ui/base-button.vue";
     background-color: $gray-100;
     width: 360px;
     height: 448px;
-    padding: 24px 16px 16px;
+    padding: 24px 16px 16px 16px;
     border-radius: 8px;
     position: absolute;
     top: 50%;
@@ -97,23 +97,18 @@ import BaseButton from "@/components/ui/base-button.vue";
         width: 360px;
         height: 207px;
         display: none;
-        justify-content: center;
-        margin: 0 auto;
         gap: 68px;
         padding-inline: 22px;
 
         &__block {
             width: 68px;
             height: 207px;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
+            @include flex(start, start, 14px, column);
 
             &--text {
                 line-height: 32px;
                 font-weight: $font-weight-semibold;
                 color: $gray-400;
-                text-align: center;
 
                 &:nth-child(3) {
                     color: $primary-main;
@@ -125,18 +120,15 @@ import BaseButton from "@/components/ui/base-button.vue";
     }
 
     &__header {
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        @include flex();
         position: relative;
-        max-height: 24px;
         margin-bottom: 12px;
+        height: 24px;
 
         &--title {
             font-size: 12px;
             line-height: 16px;
             color: $text-light-base;
-            text-align: center;
         }
 
         &--close {
@@ -161,9 +153,7 @@ import BaseButton from "@/components/ui/base-button.vue";
             &--item {
                 font-size: 12px;
                 line-height: 16px;
-                display: flex;
-                align-items: center;
-                gap: 4px;
+                @include flex(start, center, 4px);
                 color: $text-light-base;
             }
         }
@@ -179,6 +169,7 @@ import BaseButton from "@/components/ui/base-button.vue";
             overflow-y: auto;
             max-height: 256px;
             // padding-right: 12px;
+            margin-bottom: 4px;
 
             &::-webkit-scrollbar {
                 width: 4px;
@@ -200,9 +191,7 @@ import BaseButton from "@/components/ui/base-button.vue";
                 border: 1px solid $gray-200;
                 border-radius: 10px;
                 height: 55px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
+                @include flex();
                 line-height: 20px;
                 font-size: 12px;
                 color: $text-light-base2;
@@ -237,9 +226,7 @@ import BaseButton from "@/components/ui/base-button.vue";
                 font-size: 14px;
                 color: $text-light-base;
                 cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
+                @include flex();
             }
         }
     }
@@ -252,9 +239,7 @@ import BaseButton from "@/components/ui/base-button.vue";
         height: 100%;
         max-width: 600px;
         max-height: 451px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        @include flex();
         border-radius: 60px;
         box-shadow: -68px 62px 176px #0000001A;
 
