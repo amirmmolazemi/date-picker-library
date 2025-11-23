@@ -1,25 +1,46 @@
 <script setup>
-const source = [
-    { id: 1 },
-    { id: 2 },
-    { id: 3 },
-    { id: 4 },
-    { id: 5 },
-]
-const days = [
-    { id: 1, day: "شنبه" },
-    { id: 2, day: "1شنبه" },
-    { id: 3, day: "2شنبه" },
-    { id: 4, day: "3شنبه" },
-    { id: 5, day: "4شنبه" },
-    { id: 5, day: "5شنبه" },
-    { id: 5, day: "جمعه" },
-]
-
+import { computed, ref, watch } from "vue";
+import ArrowIcon from "./icons/arrow-icon.vue";
 import CloseIcon from "@/components/icons/close-icon.vue";
 import chevronIcon from "@/components/icons/chevron-icon.vue";
 import BaseButton from "@/components/ui/base-button.vue";
-// import ArrowIcon from "./icons/arrow-icon.vue";
+import { langDates } from "@/constants/langDates";
+import { createCalendarEngine } from "@/composables/useCalenderEngine";
+
+const showMonths = ref(false);
+const showyears = ref(false);
+const activeLang = ref("fa");
+const currentYear = ref(1404);
+const currentMonth = ref(9);
+const currentDay = ref(2);
+
+const weekdays = computed(() => langDates.langs[activeLang.value].weekdays);
+const months = computed(() => langDates.langs[activeLang.value].months);
+const adapter = computed(() => langDates.langs[activeLang.value].adaptor)
+const currentMonthText = computed(() => langDates.langs[activeLang.value].months[currentMonth.value - 1])
+const engine = createCalendarEngine(adapter.value, currentYear.value, currentMonth.value);
+console.log(engine.grid.value);
+
+
+watch([currentMonth, currentYear], () => {
+    engine.setMonth(currentMonth.value);
+    engine.setYear(currentYear.value);
+});
+
+const handleDayClick = (cell) => {
+    if (cell.current) currentDay.value = cell.day;
+};
+
+
+const handleMonthClick = (index) => {
+    currentMonth.value = index + 1
+    showMonths.value = false;
+};
+
+const clickHandler = () => {
+    console.log(`1404/${currentMonth.value}/${currentDay.value}`)
+}
+
 </script>
 
 <template>
@@ -29,21 +50,17 @@ import BaseButton from "@/components/ui/base-button.vue";
             <p class="container__header--title">تاریخ را انتخاب نمایید</p>
         </header>
         <div class="container__content">
-            <div class="container__content__filter">
-                <div class="container__content__filter--item">
-                    <span>شمسی</span>
+            <div class="container__content__filter" v-if="!showyears">
+                <div class="container__content__filter--item" @click="showMonths = true">
+                    <span>{{ currentMonthText }}</span>
                     <chevron-icon />
                 </div>
-                <div class="container__content__filter--item">
-                    <span>فروردین</span>
-                    <chevron-icon />
-                </div>
-                <div class="container__content__filter--item">
-                    <span>۱۴۰۰</span>
+                <div class="container__content__filter--item" @click="showyears = true">
+                    <span>{{ currentYear }}</span>
                     <chevron-icon />
                 </div>
             </div>
-            <!-- <div class="container__content__filter">
+            <div class="container__content__filter" v-if="showyears">
                 <div class="container__content__filter--item" style="rotate: 180deg;">
                     <arrow-icon />
                 </div>
@@ -53,29 +70,38 @@ import BaseButton from "@/components/ui/base-button.vue";
                 <div class="container__content__filter--item">
                     <arrow-icon />
                 </div>
-            </div> -->
-            <div class="container__content__weekdays">
-                <span class="container__content__weekdays--day" v-for="item in days" :key="item.id">
-                    {{ item.day }}
+            </div>
+            <div class="container__content__weekdays" v-if="!showMonths && !showyears">
+                <span class="container__content__weekdays--day" v-for="weekday in weekdays" :key="weekday">
+                    {{ weekday }}
                 </span>
             </div>
-            <div class="container__content__days">
-                <div class="container__content__days--day">۴</div>
+            <div class="container__content__days" v-if="!showMonths && !showyears">
+                <div class="container__content__days--day" v-for="(cell, i) in engine.grid.value"
+                    :class="{ 'selected': currentDay === cell.day && cell.current }" :key="i"
+                    @click="handleDayClick(cell)">
+                    {{ cell.day }}
+                </div>
             </div>
-            <!-- <div class="container__content__months">
-                <div class="container__content__months--month">تیر</div>
-            </div> -->
-            <base-button text="تایید" />
+            <div class="container__content__months" v-if="showMonths || showyears">
+                <div class="container__content__months--month" v-for="(month, index) in months" :key="month"
+                    :class="{ 'selected': currentMonth - 1 === index }" @click="handleMonthClick(index)">
+                    {{ month }}
+                </div>
+            </div>
+            <base-button text="تایید" @click="clickHandler" />
         </div>
         <div class="container__calender">
             <div class="container__calender__block">
-                <span class="container__calender__block--text" v-for="value in source" :key="value.id">27</span>
+                <span class="container__calender__block--text">27</span>
             </div>
             <div class="container__calender__block">
-                <span class="container__calender__block--text" v-for="value in source" :key="value.id">تیر</span>
+                <span class="container__calender__block--text" v-for="month in months" :key="month">
+                    {{ month }}
+                </span>
             </div>
             <div class="container__calender__block">
-                <span class="container__calender__block--text" v-for="value in source" :key="value.id">1404</span>
+                <span class="container__calender__block--text">1404</span>
             </div>
         </div>
     </div>
@@ -155,13 +181,13 @@ import BaseButton from "@/components/ui/base-button.vue";
                 line-height: 16px;
                 @include flex(start, center, 4px);
                 color: $text-light-base;
+                cursor: pointer;
             }
         }
 
         &__months {
             display: grid;
             justify-content: space-between;
-            direction: ltr;
             grid-template-columns: repeat(3, 90px);
             grid-template-rows: repeat(4, 55px);
             gap: 12px;
@@ -196,6 +222,12 @@ import BaseButton from "@/components/ui/base-button.vue";
                 font-size: 12px;
                 color: $text-light-base2;
                 cursor: pointer;
+                transition: all 0.2s ease;
+
+                &.selected {
+                    background-color: $primary-main;
+                    color: $text-dark-primary;
+                }
             }
         }
 
@@ -227,6 +259,12 @@ import BaseButton from "@/components/ui/base-button.vue";
                 color: $text-light-base;
                 cursor: pointer;
                 @include flex();
+                transition: all 0.2s ease;
+
+                &.selected {
+                    background-color: $primary-main;
+                    color: $text-dark-primary;
+                }
             }
         }
     }
