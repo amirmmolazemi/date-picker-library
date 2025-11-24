@@ -1,0 +1,43 @@
+@use "../abstracts/variables" as *;
+@use "../abstracts/mixins" as *;
+
+.calender {
+  width: 360px;
+  height: 207px;
+  display: none;
+  gap: 56px;
+  justify-content: center;
+  align-items: center;
+
+  &__block {
+    width: 68px;
+    height: 207px;
+    @include flex(start, center, 12px, column);
+    overflow-y: scroll;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    &--text {
+      width: 68px;
+      line-height: 32px;
+      font-weight: $font-weight-semibold;
+      color: $gray-400;
+      scroll-snap-align: center;
+      text-align: center;
+      &:nth-child(3) {
+        color: $primary-main;
+        border-top: 1px solid $primary-main;
+        border-bottom: 1px solid $primary-main;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .calender {
+    display: flex;
+  }
+}
