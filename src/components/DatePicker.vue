@@ -3,11 +3,13 @@ import { computed, ref } from "vue";
 import { langDates } from "@/constants/langDates";
 import MobileDatePicker from "@/components/MobileDatePicker.vue";
 import DesktopDatePicker from "@/components/DesktopDatePicker.vue";
+import dateFormatter from "@/utils/dateFormatter";
 
 const props = defineProps({
   startYear: { type: Number, default: 1354 },
   endYear: { type: Number, default: 1414 },
   yearRange: { type: Number, default: 50 },
+  format: { type: String, default: "YYYY-MM-DD" }
 });
 
 const activeLang = ref("fa");
@@ -21,11 +23,18 @@ const years = computed(() => {
 });
 
 const months = computed(() => langDates.langs[activeLang.value].months);
+
+const emit = defineEmits(["formatedDate"])
+
+const formatDate = (date) => {
+  const formatedDate = dateFormatter(date, props.format);
+  emit("formatedDate", formatedDate)
+}
 </script>
 
 <template>
   <div class="container">
-    <DesktopDatePicker :activeLang="activeLang" :months="months" :years="years" />
+    <DesktopDatePicker :activeLang="activeLang" :months="months" :years="years" @date="formatDate" />
     <MobileDatePicker :months="months" :years="years" />
   </div>
 </template>

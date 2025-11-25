@@ -5,7 +5,7 @@ const langDates = {
     fa: {
       calendar: "jalali",
       adaptor: jalaliAdapter,
-      weekdays: ["شنبه", "1شنبه", "2شنبه", "3شنبه", "4شنبه", "5شنبه", "جمعه"],
+      weekdays: ["شنبه", "۱شنبه", "۲شنبه", "۳شنبه", "۴شنبه", "۵شنبه", "جمعه"],
       months: [
         "فروردین",
         "اردیبهشت",
@@ -27,7 +27,7 @@ const langDates = {
     en: {
       calendar: "gregorian",
       adaptor: jalaliAdapter,
-      weekdays: ["2شنبه", "3شنبه", "4شنبه", "5شنبه", "جمعه", "شنبه", "یکشنبه"],
+      weekdays: ["۲شنبه", "۳شنبه", "۴شنبه", "۵شنبه", "جمعه", "شنبه", "۱شنبه"],
       months: [
         "ژانویه",
         "فوریه",
