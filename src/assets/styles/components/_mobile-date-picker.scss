@@ -27,7 +27,7 @@
       color: $gray-400;
       scroll-snap-align: center;
       text-align: center;
-      &:nth-child(3) {
+      &.selected {
         color: $primary-main;
         border-top: 1px solid $primary-main;
         border-bottom: 1px solid $primary-main;
