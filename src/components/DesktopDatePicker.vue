@@ -90,12 +90,12 @@ const clickHandler = () => {
     </div>
     <div class="content__days" v-if="!showMonths && !showyears">
       <div class="content__days__day" v-for="(cell, i) in engine.grid.value" :class="{
-        selected: todayDate.day === cell.day && cell.current && today.month === cell.month, 'today': todayDate.day === cell.day && today.month === cell.month && cell.current,
+        selected: todayDate.day === cell.day && cell.current && cell.month === todayDate.month, 'today': todayDate.day === cell.day && today.month === cell.month && cell.current && today.year === cell.year,
         'not-current': !cell.current,
       }" :key="i" @click="handleDayClick(cell)">
         {{ englishToPersianDigit(cell.day) }}
         <span class="content__days__day--today"
-          v-if="today.day === cell.day && today.month === cell.month && cell.current">امروز</span>
+          v-if="today.day === cell.day && today.month === cell.month && cell.current && today.year === cell.year">امروز</span>
       </div>
     </div>
     <div class="content__months" v-if="showMonths">
