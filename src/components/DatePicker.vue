@@ -9,7 +9,8 @@ const props = defineProps({
   startYear: { type: Number, default: 1354 },
   endYear: { type: Number, default: 1414 },
   yearRange: { type: Number, default: 50 },
-  format: { type: String, default: "YYYY-MM-DD" }
+  format: { type: String, default: "YYYY-MM-DD" },
+  range: Boolean
 });
 
 const activeLang = ref("fa");
@@ -34,7 +35,7 @@ const formatDate = (date) => {
 
 <template>
   <div class="container">
-    <DesktopDatePicker :activeLang="activeLang" :months="months" :years="years" @date="formatDate" />
+    <DesktopDatePicker :activeLang="activeLang" :months="months" :years="years" @date="formatDate" @rangeDate="formatDate" :range="range" />
     <MobileDatePicker :months="months" :years="years" :activeLang="activeLang" />
   </div>
 </template>

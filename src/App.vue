@@ -6,7 +6,7 @@ const changeHandler = (data) => date.value = data
 </script>
 
 <template>
-  <date-picker @formated-date="changeHandler" format="YYYY/MM/DD" />
+  <date-picker @formated-date="changeHandler" format="YYYY/MM/DD" :range="true" />
   <span>{{ date }}</span>
 </template>
 
