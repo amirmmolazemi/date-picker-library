@@ -119,18 +119,16 @@
     gap: 16px;
     position: relative;
 
-    &::before {
-      content: "";
+    &__week-gradient {
       position: absolute;
-      background: linear-gradient(to right, #cee0fc26, #cee0fc);
-      border-radius: 10px;
-      z-index: 0;
-      grid-column: var(--range-start-col, -1) / var(--range-end-col, -1);
-      grid-row: var(--range-start-row, -1) / var(--range-end-row, -1);
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
+      background: linear-gradient(to right, #cee0fc26, #cee0fc);
+      border-radius: 10px;
+      z-index: 0;
+      pointer-events: none;
     }
 
     &__day {
@@ -155,7 +153,6 @@
         transform: translateX(-50%);
         line-height: 12px;
       }
-      
 
       &.selected {
         background-color: $primary-main;
