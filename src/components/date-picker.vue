@@ -4,8 +4,8 @@ import { langDates } from "@/constants/langDates";
 import { createCalendarEngine } from "@/composables/useCalenderEngine";
 import useGetToday from "@/composables/useGetToday";
 import dateFormatter from "@/utils/dateFormatter";
-import MobileDatePicker from "@/components/mobile/MobileDatePicker.vue";
-import DesktopDatePicker from "@/components/desktop/DesktopDatePicker.vue";
+import MobileDatepicker from "@/components/mobile/mobile-datepicker.vue";
+import DesktopDatepicker from "@/components/desktop/desktop-datepicker.vue";
 import BaseInput from "@/components/ui/base-input.vue";
 
 const props = defineProps({
@@ -17,7 +17,7 @@ const props = defineProps({
     type: String,
     default: "single",
     validator(value) {
-      return ["range", "multiple", "single"].includes(value);
+      return ["range", "single"].includes(value);
     },
   },
 });
@@ -30,6 +30,7 @@ const showCalender = ref(props.assign ? true : false);
 const today = useGetToday();
 
 const adapter = computed(() => langDates.langs[activeLang.value].adaptor);
+const months = computed(() => langDates.langs[activeLang.value].months);
 const engine = createCalendarEngine(adapter.value, today.year, today.month, true, [
   props.min,
   props.max,
@@ -43,7 +44,6 @@ const years = computed(() => {
   return arr;
 });
 
-const months = computed(() => langDates.langs[activeLang.value].months);
 
 const formatDate = (date) => {
   showCalender.value = false;
@@ -56,9 +56,9 @@ watch([showCalender], () => emit(showCalender.value ? "open" : "close"));
 
 <template>
   <div class="container" v-if="showCalender">
-    <DesktopDatePicker :activeLang="activeLang" :months="months" :years="years" @date="formatDate"
+    <desktop-datepicker :activeLang="activeLang" :months="months" :years="years" @date="formatDate"
       @changed="$emit('changed')" :mode="mode" :engine="engine" :todayDate="today" />
-    <MobileDatePicker :months="months" :years="years" :activeLang="activeLang" :engine="engine" :today="today" />
+    <mobile-datepicker :months="months" :years="years" :activeLang="activeLang" :engine="engine" :today="today" />
   </div>
   <base-input @click="showCalender = true" v-if="!showCalender && !assign" :value="model" :placeholder="model" />
 </template>

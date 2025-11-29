@@ -1,7 +1,7 @@
 <script setup>
 import { englishToPersianDigit } from "@/utils/replaceNumbers";
-import ArrowIcon from "@/components/icons/arrow-icon.vue";
-import chevronIcon from "@/components/icons/chevron-icon.vue";
+import IconArrow from "@/components/icons/icon-arrow.vue";
+import IconChevron from "@/components/icons/icon-chevron.vue";
 
 defineProps({
   showMonths: Boolean,
@@ -15,36 +15,30 @@ const emit = defineEmits(["update:showMonths", "update:showYears"]);
 
 <template>
   <div class="content__filter" v-if="!showYears">
-    <div
-      class="content__filter--item"
-      @click="
-        emit('update:showYears', false);
-        emit('update:showMonths', true);
-      "
-    >
+    <div class="content__filter--item" @click="
+      emit('update:showYears', false);
+    emit('update:showMonths', true);
+    ">
       <span>{{ currentMonthText }}</span>
-      <chevron-icon />
+      <icon-chevron />
     </div>
-    <div
-      class="content__filter--item"
-      @click="
-        emit('update:showYears', true);
-        emit('update:showMonths', false);
-      "
-    >
+    <div class="content__filter--item" @click="
+      emit('update:showYears', true);
+    emit('update:showMonths', false);
+    ">
       <span>{{ englishToPersianDigit(today.year) }}</span>
-      <chevron-icon />
+      <icon-chevron />
     </div>
   </div>
   <div class="content__filter" v-if="showYears">
     <div class="content__filter--item" style="rotate: 180deg">
-      <arrow-icon />
+      <icon-arrow />
     </div>
     <div class="content__filter--item" @scroll="onScroll('day', $event)">
       <span>{{ englishToPersianDigit(today.year) }}</span>
     </div>
     <div class="content__filter--item">
-      <arrow-icon />
+      <icon-arrow />
     </div>
   </div>
 </template>

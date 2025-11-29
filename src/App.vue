@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from "vue";
-import DatePicker from "./components/DatePicker.vue";
+import DatePicker from "./components/date-picker.vue";
 const date = ref("");
 </script>
 

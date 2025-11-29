@@ -1,12 +1,12 @@
 <script setup>
 import { ref, computed, watch, reactive } from "vue";
 import { langDates } from "@/constants/langDates";
-import CloseIcon from "@/components/icons/close-icon.vue";
+import IconClose from "@/components/icons/icon-close.vue";
 import BaseButton from "@/components/ui/base-button.vue";
-import GridFilter from "@/components/filter/GridFilter.vue";
-import GridDays from "@/components/grids/GridDays.vue";
-import GridMonths from "@/components/grids/GridMonths.vue";
-import GridYears from "@/components/grids/GridYears.vue";
+import GridFilter from "@/components/filter/grid-filter.vue";
+import GridDays from "@/components/grids/grid-days.vue";
+import GridMonths from "@/components/grids/grid-months.vue";
+import GridYears from "@/components/grids/grid-years.vue";
 
 const props = defineProps({
   activeLang: String,
@@ -81,39 +81,21 @@ const clickHandler = () => {
 
 <template>
   <header class="header">
-    <close-icon class="header--close" />
+    <icon-close class="header--close" />
     <p class="header--title">تاریخ را انتخاب نمایید</p>
   </header>
   <div class="content">
-    <grid-filter
-      :current-month-text="currentMonthText"
-      :show-years="showYears"
-      :show-months="showMonths"
-      :today="today"
+    <grid-filter :current-month-text="currentMonthText" :show-years="showYears" :show-months="showMonths" :today="today"
       @update:showYears="(e) => ((showYears = e), (showMonths = !e))"
-      @update:showMonths="(e) => ((showYears = !e), (showMonths = e))"
-    />
+      @update:showMonths="(e) => ((showYears = !e), (showMonths = e))" />
     <div class="content__weekdays" v-if="!showMonths && !showYears">
       <span class="content__weekdays--day" v-for="weekday in weekdays" :key="weekday">
         {{ weekday }}
       </span>
     </div>
-    <grid-days
-      :mode="mode"
-      :selected-range="selectedRange"
-      :show-months="showMonths"
-      :showYears="showYears"
-      :today="today"
-      :todayDate="todayDate"
-      :engine="engine"
-      @clicked="handleDayClick"
-    />
-    <grid-months
-      :show-months="showMonths"
-      :today="today"
-      :months="months"
-      @clicked="handleMonthClick"
-    />
+    <grid-days :mode="mode" :selected-range="selectedRange" :show-months="showMonths" :showYears="showYears"
+      :today="today" :todayDate="todayDate" :engine="engine" @clicked="handleDayClick" />
+    <grid-months :show-months="showMonths" :today="today" :months="months" @clicked="handleMonthClick" />
     <grid-years :show-years="showYears" :today="today" :years="years" @clicked="handleYearClick" />
     <base-button text="تایید" @click="clickHandler" />
   </div>
