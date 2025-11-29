@@ -36,7 +36,7 @@ const years = computed(() => {
   const arr = [];
   const start = props.min.split("/")[0];
   const end = props.max.split("/")[0];
-  for (let year = start; year <= end; year++) arr.push(year);
+  for (let year = start; year <= end; year++) arr.push(Number(year));
   return arr;
 });
 
@@ -52,22 +52,8 @@ watch([showCalender], () => emit(showCalender.value ? "open" : "close"));
 
 <template>
   <div class="container" v-if="showCalender">
-    <DesktopDatePicker
-      :activeLang="activeLang"
-      :months="months"
-      :years="years"
-      @date="formatDate"
-      @changed="$emit('changed')"
-      :mode="mode"
-      :engine="engine"
-      :todayDate="today"
-    />
-    <MobileDatePicker
-      :months="months"
-      :years="years"
-      :activeLang="activeLang"
-      :engine="engine"
-      :today="today"
-    />
+    <DesktopDatePicker :activeLang="activeLang" :months="months" :years="years" @date="formatDate"
+      @changed="$emit('changed')" :mode="mode" :engine="engine" :todayDate="today" />
+    <MobileDatePicker :months="months" :years="years" :activeLang="activeLang" :engine="engine" :today="today" />
   </div>
 </template>

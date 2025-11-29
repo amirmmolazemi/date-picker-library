@@ -14,6 +14,7 @@
     height: 207px;
     @include flex(start, center, 12px, column);
     overflow-y: scroll;
+    position: relative;
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
     &::-webkit-scrollbar {
@@ -27,7 +28,7 @@
       color: $gray-400;
       scroll-snap-align: center;
       text-align: center;
-      &.selected {
+      &.today {
         color: $primary-main;
         border-top: 1px solid $primary-main;
         border-bottom: 1px solid $primary-main;
