@@ -35,7 +35,6 @@ const currentMonths = computed(() => {
   const grids = props.months
   const startOfArray = grids.length > 5 ? grids.slice(0, 2) : []
   const endOfArray = grids.length > 5 ? grids.slice(grids.length - 2) : []
-  console.log(props.months);
   return [...endOfArray, ...grids, ...startOfArray]
 });
 

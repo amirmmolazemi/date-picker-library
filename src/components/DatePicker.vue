@@ -6,11 +6,13 @@ import useGetToday from "@/composables/useGetToday";
 import dateFormatter from "@/utils/dateFormatter";
 import MobileDatePicker from "@/components/mobile/MobileDatePicker.vue";
 import DesktopDatePicker from "@/components/desktop/DesktopDatePicker.vue";
+import BaseInput from "@/components/ui/base-input.vue";
 
 const props = defineProps({
   format: { type: String, default: "YYYY-MM-DD" },
   min: { type: String, default: "1400/01/01" },
   max: { type: String, default: "1410/01/15" },
+  assign: { type: Boolean, default: false },
   mode: {
     type: String,
     default: "single",
@@ -20,10 +22,11 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["formatedDate", "close", "open", "changed"]);
+const emit = defineEmits(["close", "open", "changed"]);
+const model = defineModel()
 
 const activeLang = ref("fa");
-const showCalender = ref(true);
+const showCalender = ref(props.assign ? true : false);
 const today = useGetToday();
 
 const adapter = computed(() => langDates.langs[activeLang.value].adaptor);
@@ -44,7 +47,8 @@ const months = computed(() => langDates.langs[activeLang.value].months);
 
 const formatDate = (date) => {
   showCalender.value = false;
-  emit("formatedDate", dateFormatter(date, props.format));
+  const formatted = dateFormatter(date, props.format)
+  model.value = formatted
 };
 
 watch([showCalender], () => emit(showCalender.value ? "open" : "close"));
@@ -56,4 +60,5 @@ watch([showCalender], () => emit(showCalender.value ? "open" : "close"));
       @changed="$emit('changed')" :mode="mode" :engine="engine" :todayDate="today" />
     <MobileDatePicker :months="months" :years="years" :activeLang="activeLang" :engine="engine" :today="today" />
   </div>
+  <base-input @click="showCalender = true" v-if="!showCalender && !assign" :value="model" :placeholder="model" />
 </template>
