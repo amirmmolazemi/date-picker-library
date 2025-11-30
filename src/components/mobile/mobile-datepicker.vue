@@ -13,7 +13,7 @@ const props = defineProps({
 });
 
 const date = reactive({ ...props.today });
-const selectedDate = reactive({})
+const selectedDate = reactive({});
 const dayRef = ref(null);
 const monthRef = ref(null);
 const yearRef = ref(null);
@@ -77,11 +77,14 @@ const scrollToToday = (ref) => {
   if (element) element.scrollIntoView({ block: "center" });
 };
 
-const emit = defineEmits(["changed"])
+const emit = defineEmits(["changed"]);
 
 watch(selectedDate, () => {
-  emit("changed", { status: "mobile", date: `${selectedDate.year}/${selectedDate.month}/${selectedDate.day}` })
-})
+  emit("changed", {
+    status: "mobile",
+    date: `${selectedDate.year}/${selectedDate.month}/${selectedDate.day}`,
+  });
+});
 
 onMounted(async () => {
   await nextTick();
@@ -92,20 +95,32 @@ onMounted(async () => {
 <template>
   <div class="calender">
     <div class="calender__block" ref="dayRef" @scroll="handleDayScroll">
-      <span v-for="(item, i) in currentDays" :key="i" class="calender__block--text"
-        :class="{ today: date.day === item.value.day && item.zone === 'original' }">
+      <span
+        v-for="(item, i) in currentDays"
+        :key="i"
+        class="calender__block--text"
+        :class="{ today: date.day === item.value.day && item.zone === 'original' }"
+      >
         {{ item.value.current && englishToPersianDigit(item.value.day) }}
       </span>
     </div>
     <div class="calender__block" ref="monthRef" @scroll="handleMonthScroll">
-      <span v-for="(item, i) in currentMonths" :key="i" class="calender__block--text"
-        :class="{ today: date.month - 3 === i - 4 && item.zone === 'original' }">
+      <span
+        v-for="(item, i) in currentMonths"
+        :key="i"
+        class="calender__block--text"
+        :class="{ today: date.month - 3 === i - 4 && item.zone === 'original' }"
+      >
         {{ item.value }}
       </span>
     </div>
     <div class="calender__block" ref="yearRef" @scroll="handleYearScroll">
-      <span v-for="(item, i) in currentYears" :key="i" class="calender__block--text"
-        :class="{ today: date.year === item.value && item.zone === 'original' }">
+      <span
+        v-for="(item, i) in currentYears"
+        :key="i"
+        class="calender__block--text"
+        :class="{ today: date.year === item.value && item.zone === 'original' }"
+      >
         {{ englishToPersianDigit(item.value) }}
       </span>
     </div>

@@ -15,17 +15,23 @@ const emit = defineEmits(["update:showMonths", "update:showYears"]);
 
 <template>
   <div class="content__filter" v-if="!showYears">
-    <div class="content__filter--item" @click="
-      emit('update:showYears', false);
-    emit('update:showMonths', true);
-    ">
+    <div
+      class="content__filter--item"
+      @click="
+        emit('update:showYears', false);
+        emit('update:showMonths', true);
+      "
+    >
       <span>{{ currentMonthText }}</span>
       <icon-chevron />
     </div>
-    <div class="content__filter--item" @click="
-      emit('update:showYears', true);
-    emit('update:showMonths', false);
-    ">
+    <div
+      class="content__filter--item"
+      @click="
+        emit('update:showYears', true);
+        emit('update:showMonths', false);
+      "
+    >
       <span>{{ englishToPersianDigit(today.year) }}</span>
       <icon-chevron />
     </div>
@@ -37,7 +43,7 @@ const emit = defineEmits(["update:showMonths", "update:showYears"]);
     <div class="content__filter--item">
       <span>{{ englishToPersianDigit(today.year) }}</span>
     </div>
-    <div class=" content__filter--item">
+    <div class="content__filter--item">
       <icon-arrow />
     </div>
   </div>
