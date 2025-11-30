@@ -26,9 +26,10 @@ const emit = defineEmits(["close", "open", "changed", "onClosed"]);
 const model = defineModel();
 
 const activeLang = ref("fa");
+const selectedDate = ref("")
+const showCalender = ref(props.headless);
 const today = useGetToday();
 
-const showCalender = ref(props.headless);
 const adapter = computed(() => langDates.langs[activeLang.value].adapter);
 const months = computed(() => langDates.langs[activeLang.value].months);
 
@@ -53,17 +54,23 @@ watch(showCalender, (value) => emit(value ? "open" : "close"));
 
 const closeHandler = () => {
   if (!props.headless) showCalender.value = false;
-  emit("close");
+  emit("close", selectedDate.value);
 };
+
+const changeDateHandler = (item) => {
+  item?.status ? model.value = dateFormatter(item.date, props.format) : null
+  emit('changed')
+}
 </script>
 
 
 <template>
+  <div v-if="showCalender" class="overlay" @click="closeHandler"></div>
   <div class="container" v-if="showCalender">
     <desktop-datepicker :active-lang="activeLang" :months="months" :years="years" @date="formatDate"
-      @changed="$emit('changed')" @closed="closeHandler" :mode="mode" :engine="engine" :today-date="today" />
+      @changed="changeDateHandler" @closed="closeHandler" :mode="mode" :engine="engine" :today-date="today" />
     <mobile-datepicker :months="months" :showCalender="showCalender" :years="years" :active-lang="activeLang"
-      :engine="engine" :today="today" />
+      @changed="changeDateHandler" :engine="engine" :today="today" />
   </div>
   <base-input v-if="!headless" @click="showCalender = true" :value="model" :placeholder="model" />
 </template>
