@@ -1,6 +1,5 @@
 <script setup>
 import { englishToPersianDigit } from "@/utils/replaceNumbers";
-import IconArrow from "@/components/icons/icon-arrow.vue";
 import IconChevron from "@/components/icons/icon-chevron.vue";
 
 defineProps({
@@ -38,13 +37,13 @@ const emit = defineEmits(["update:showMonths", "update:showYears"]);
   </div>
   <div class="content__filter" v-if="showYears">
     <div class="content__filter--item" style="rotate: 180deg">
-      <icon-arrow />
+      <!-- <icon-arrow /> -->
     </div>
     <div class="content__filter--item">
       <span>{{ englishToPersianDigit(today.year) }}</span>
     </div>
     <div class="content__filter--item">
-      <icon-arrow />
+      <!-- <icon-arrow /> -->
     </div>
   </div>
 </template>
