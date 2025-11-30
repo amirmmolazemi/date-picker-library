@@ -88,6 +88,8 @@ const changeDateHandler = (item) => {
       @changed="changeDateHandler"
       :engine="engine"
       :today="today"
+      :min="min"
+      :max="max"
     />
   </div>
   <base-input v-if="!headless" @click="showCalender = true" :value="model" :placeholder="model" />

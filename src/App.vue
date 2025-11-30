@@ -5,14 +5,7 @@ const date = ref("");
 </script>
 
 <template>
-  <date-picker
-    format="YYYY/MM/DD"
-    mode="range"
-    v-model="date"
-    @close="console.log('close')"
-    @open="console.log('open')"
-    @changed="console.log('changed')"
-  />
+  <date-picker format="YYYY/MM/DD" mode="range" v-model="date" />
 </template>
 
 <style lang="scss">
