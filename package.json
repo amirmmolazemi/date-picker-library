@@ -1,9 +1,9 @@
 {
-  "name": "moli-vue-datepicker",
+  "name": "moli-vue-date-picker",
   "version": "0.0.1",
   "private": false,
-  "main": "dist/moli-vue-datepicker.umd.js",
-  "module": "dist/moli-vue-datepicker.es.js",
+  "main": "dist/moli-vue-date-picker.umd.js",
+  "module": "dist/moli-vue-date-picker.es.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"

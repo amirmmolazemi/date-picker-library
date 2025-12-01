@@ -1,4 +1,4 @@
-# moli-vue-datepicker
+# moli-vue-date-picker
 
 > A vue responsive UI library to select jalali date and time
 
@@ -7,7 +7,7 @@
 ### npm
 
 ```bash
-npm install moli-vue-datepicker --save
+npm install moli-vue-date-picker --save
 ```
 
 ### Usage
@@ -17,7 +17,7 @@ if you want to use it normal use this code and add the css import to your main.j
 ```vue
 <script setup>
 import { ref } from "vue";
-import DatePicker from "moli-vue-datepicker";
+import DatePicker from "moli-vue-date-picker";
 const date = ref("")
 </script>
 
@@ -29,7 +29,7 @@ const date = ref("")
 ``` js
 import { createApp } from 'vue'
 import App from './App.vue'
-import 'moli-vue-datepicker/dist/index.css';
+import 'moli-vue-date-picker/dist/index.css';
 
 createApp(App).mount('#app')
 ```
@@ -39,7 +39,7 @@ if you want to access to the events that the library provides, use this code
 ```vue
 <script setup>
 import { ref } from "vue";
-import DatePicker from "moli-vue-datepicker";
+import DatePicker from "moli-vue-date-picker";
 const date = ref("")
 </script>
 
