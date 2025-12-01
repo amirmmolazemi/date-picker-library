@@ -22,7 +22,7 @@ export default defineConfig({
     lib: {
       entry: fileURLToPath(new URL("./src/index.js", import.meta.url)),
       name: "MoliDatepicker",
-      fileName: (format) => `moli-persian-datepicker.${format}.js`,
+      fileName: (format) => `moli-vue-datepicker.${format}.js`,
     },
     cssCodeSplit: true,
     rollupOptions: {

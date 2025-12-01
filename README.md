@@ -1,4 +1,4 @@
-# moli-datepicker
+# moli-vue-datepicker
 
 > A vue responsive UI library to select jalali date and time
 
@@ -7,23 +7,31 @@
 ### npm
 
 ```bash
-npm install moli-datepicker --save
+npm install moli-vue-datepicker --save
 ```
 
 ### Usage
 
-if you want to use it normal use this code
+if you want to use it normal use this code and add the css import to your main.js
 
 ```vue
 <script setup>
 import { ref } from "vue";
-import DatePicker from "./components/date-picker.vue";
+import DatePicker from "moli-vue-datepicker";
 const date = ref("")
 </script>
 
 <template>
-  <moli-datepicker v-model="date" />
+  <DatePicker v-model="date" />
 </template>
+```
+
+``` js
+import { createApp } from 'vue'
+import App from './App.vue'
+import 'moli-vue-datepicker/dist/index.css';
+
+createApp(App).mount('#app')
 ```
 
 if you want to access to the events that the library provides, use this code
@@ -31,7 +39,7 @@ if you want to access to the events that the library provides, use this code
 ```vue
 <script setup>
 import { ref } from "vue";
-import DatePicker from "./components/date-picker.vue";
+import DatePicker from "moli-vue-datepicker";
 const date = ref("")
 </script>
 
@@ -77,5 +85,8 @@ calender component accept these common props:
 - [moment-jalaali](https://github.com/jalaali/moment-jalaali) - A Jalaali (Jalali, Persian, Khorshidi, Shamsi) calendar system plugin for moment.js.
 
 ## Change log
+
+#### 1.0.1 (2025-12-01)
+- docs: format document and improve readability
 
 ### 1.0.0 (2025-11-30)

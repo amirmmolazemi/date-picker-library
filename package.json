@@ -1,9 +1,9 @@
 {
-  "name": "moli-persian-datepicker",
-  "version": "1.0.17",
+  "name": "moli-vue-datepicker",
+  "version": "0.0.1",
   "private": false,
-  "main": "dist/moli-persian-datepicker.umd.js",
-  "module": "dist/moli-persian-datepicker.es.js",
+  "main": "dist/moli-vue-datepicker.umd.js",
+  "module": "dist/moli-vue-datepicker.es.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
