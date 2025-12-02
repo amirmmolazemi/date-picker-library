@@ -1,15 +1,37 @@
-import moment from "moment-jalaali";
+import {
+  newDate,
+  getDaysInMonth as fnsGetDaysInMonth,
+  startOfMonth,
+  getDay,
+  addMonths,
+  subMonths,
+  format,
+} from "date-fns-jalali";
 
-const parse = (year, month, day) => moment(`${year}-${month}-${day}`, "jYYYY-jMM-jDD");
-const getDaysInMonth = (year, month) => moment.jDaysInMonth(year, month - 1);
-const getFirstWeekday = (year, month) => (parse(year, month, 1).day() + 1) % 7;
-const getPreviousMonth = (year, month) => {
-  const m = parse(year, month, 1).subtract(1, "jMonth");
-  return { year: m.jYear(), month: m.jMonth() + 1 };
+const getDaysInMonth = (year, month) => {
+  const d = newDate(year, month - 1, 1);
+  return fnsGetDaysInMonth(d);
 };
+
+const getFirstWeekday = (year, month) => {
+  const first = startOfMonth(newDate(year, month - 1, 1));
+  return (getDay(first) + 1) % 7;
+};
+
+const getPreviousMonth = (year, month) => {
+  const d = subMonths(newDate(year, month - 1, 1), 1);
+  return {
+    year: parseInt(format(d, "yyyy")),
+    month: parseInt(format(d, "MM")),
+  };
+};
+
 const getNextMonth = (year, month) => {
-  const m = parse(year, month, 1).add(1, "jMonth");
-  return { year: m.jYear(), month: m.jMonth() + 1 };
+  const d = addMonths(newDate(year, month - 1, 1), 1);
+  return {
+    year: parseInt(format(d, "yyyy")),
+    month: parseInt(format(d, "MM")),
+  };
 };
 
 export const jalaliAdapter = { getDaysInMonth, getFirstWeekday, getPreviousMonth, getNextMonth };
