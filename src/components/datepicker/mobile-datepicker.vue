@@ -5,7 +5,6 @@ import { englishToPersianDigit, persianToEnglish } from "@/utils/replaceNumbers"
 import wrapList from "@/utils/wrapList";
 
 const props = defineProps({
-  activeLang: String,
   months: Array,
   years: Array,
   engine: Object,

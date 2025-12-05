@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from "vue";
 import { englishToPersianDigit } from "@/utils/replaceNumbers";
+import sameDate from "@/utils/sameDate";
 
 const props = defineProps({
   showMonths: Boolean,
@@ -16,8 +17,6 @@ const props = defineProps({
 });
 
 defineEmits(["clicked"]);
-
-const sameDate = (a, b) => a.day === b.day && a.month === b.month && a.year === b.year;
 
 const inRangeWeeks = computed(() => {
   if (props.mode !== "range") return [];

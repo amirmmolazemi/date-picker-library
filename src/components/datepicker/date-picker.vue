@@ -4,8 +4,8 @@ import { langDates } from "@/constants/langDates";
 import { createCalendarEngine } from "@/composables/useCalenderEngine";
 import useGetToday from "@/composables/useGetToday";
 import dateFormatter from "@/utils/dateFormatter";
-import MobileDatepicker from "@/components/mobile/mobile-datepicker.vue";
-import DesktopDatepicker from "@/components/desktop/desktop-datepicker.vue";
+import MobileDatepicker from "@/components/datepicker/mobile-datepicker.vue";
+import DesktopDatepicker from "@/components/datepicker/desktop-datepicker.vue";
 import BaseInput from "@/components/ui/base-input.vue";
 
 const props = defineProps({
@@ -28,11 +28,9 @@ const emit = defineEmits(["close", "open", "changed"]);
 const model = defineModel();
 
 const activeLang = ref("jalaali");
-const selectedDate = ref("");
 const showCalender = ref(props.headless);
-const today = useGetToday(activeLang.value);
 
-const adapter = computed(() => langDates.langs[activeLang.value].adapter);
+const provider = computed(() => langDates.langs[activeLang.value].provider);
 const months = computed(() => langDates.langs[activeLang.value].months);
 const direction = computed(() => langDates.langs[activeLang.value].direction);
 const defaultDates = computed(() => {
@@ -55,14 +53,14 @@ const defaultDates = computed(() => {
     });
   }
 });
-
-const engine = createCalendarEngine(adapter.value, today, [props.min, props.max]);
-
 const years = computed(() => {
   let start = Number(props.min.split("/")[0]);
   let end = Number(props.max.split("/")[0]);
   return Array.from({ length: end - start + 1 }, (_, i) => start + i);
 });
+
+const today = useGetToday(activeLang.value);
+const engine = createCalendarEngine(provider.value, today, [props.min, props.max]);
 
 const formatDate = (date) => {
   const result = date ? date : defaultDates.value;
@@ -78,7 +76,7 @@ watch(showCalender, (value) => {
 
 const closeHandler = () => {
   if (!props.headless) showCalender.value = false;
-  emit("close", selectedDate.value);
+  emit("close");
 };
 
 const changeDateHandler = (item) => {
@@ -105,7 +103,6 @@ const changeDateHandler = (item) => {
       :months="months"
       :showCalender="showCalender"
       :years="years"
-      :active-lang="activeLang"
       @changed="changeDateHandler"
       :engine="engine"
       :today="today"

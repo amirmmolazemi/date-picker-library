@@ -1,7 +1,7 @@
 import enabledDate from "@/utils/enabledDate";
 import { ref, computed } from "vue";
 
-export const createCalendarEngine = (adapter, initialDate, limits) => {
+export const createCalendarEngine = (provider, initialDate, limits) => {
   const year = ref(initialDate.year);
   const month = ref(initialDate.month);
 
@@ -10,10 +10,10 @@ export const createCalendarEngine = (adapter, initialDate, limits) => {
 
   const grid = computed(() => {
     const cells = [];
-    const daysInMonth = adapter.getDaysInMonth(year.value, month.value);
-    const firstWeekday = adapter.getFirstWeekday(year.value, month.value);
-    const prev = adapter.getPreviousMonth(year.value, month.value);
-    const daysInPrev = adapter.getDaysInMonth(prev.year, prev.month);
+    const daysInMonth = provider.getDaysInMonth(year.value, month.value);
+    const firstWeekday = provider.getFirstWeekday(year.value, month.value);
+    const prev = provider.getPreviousMonth(year.value, month.value);
+    const daysInPrev = provider.getDaysInMonth(prev.year, prev.month);
 
     const prefix = firstWeekday;
     for (let i = prefix - 1; i >= 0; i--) {
@@ -23,7 +23,7 @@ export const createCalendarEngine = (adapter, initialDate, limits) => {
         month: prev.month,
         day,
         current: false,
-        enable: enabledDate(prev.year, prev.month, day, limits, adapter),
+        enable: enabledDate(prev.year, prev.month, day, limits, provider),
       });
     }
 
@@ -33,11 +33,11 @@ export const createCalendarEngine = (adapter, initialDate, limits) => {
         month: month.value,
         day,
         current: true,
-        enable: enabledDate(year.value, month.value, day, limits, adapter),
+        enable: enabledDate(year.value, month.value, day, limits, provider),
       });
     }
 
-    const nextMonth = adapter.getNextMonth(year.value, month.value);
+    const nextMonth = provider.getNextMonth(year.value, month.value);
     const remaining = 35 - cells.length;
     for (let i = 1; i <= remaining; i++) {
       cells.push({
@@ -45,7 +45,7 @@ export const createCalendarEngine = (adapter, initialDate, limits) => {
         month: nextMonth.month,
         day: i,
         current: false,
-        enable: enabledDate(nextMonth.year, nextMonth.month, i, limits, adapter),
+        enable: enabledDate(nextMonth.year, nextMonth.month, i, limits, provider),
       });
     }
 

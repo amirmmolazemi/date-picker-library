@@ -3,7 +3,6 @@ import { englishToPersianDigit } from "@/utils/replaceNumbers";
 import IconChevron from "@/components/icons/icon-chevron.vue";
 
 defineProps({
-  showMonths: Boolean,
   showYears: Boolean,
   year: Number,
   currentMonthText: String,

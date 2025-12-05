@@ -1,10 +1,10 @@
-import { gregorianAdapter } from "@/core/gregorianSystem";
-import { jalaliAdapter } from "@/core/jalaliSystem";
+import { gregorianProvider } from "@/providers/gregorianProvider";
+import { jalaliProvider } from "@/providers/jalaliProvider";
 
 const langDates = {
   langs: {
     jalaali: {
-      adapter: jalaliAdapter,
+      provider: jalaliProvider,
       weekdays: ["شنبه", "۱شنبه", "۲شنبه", "۳شنبه", "۴شنبه", "۵شنبه", "جمعه"],
       months: [
         "فروردین",
@@ -26,7 +26,7 @@ const langDates = {
       todayText: "امروز",
     },
     gregorian: {
-      adapter: gregorianAdapter,
+      provider: gregorianProvider,
       weekdays: ["Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri"],
       months: [
         "January",

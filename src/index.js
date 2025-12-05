@@ -1,3 +1,3 @@
 import "@/assets/styles/library/index.scss";
-import DatePicker from "./components/date-picker.vue";
+import DatePicker from "./components/datepicker/date-picker.vue";
 export default DatePicker;

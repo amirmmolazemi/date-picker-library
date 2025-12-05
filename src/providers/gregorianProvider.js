@@ -1,12 +1,13 @@
 import {
-  newDate,
-  getDaysInMonth as fnsGetDaysInMonth,
-  startOfMonth,
-  getDay,
   addMonths,
   subMonths,
   format,
-} from "date-fns-jalali";
+  getDaysInMonth as fnsGetDaysInMonth,
+  startOfMonth,
+  getDay,
+} from "date-fns";
+
+const newDate = (year, month, day) => new Date(year, month, day);
 
 const getDaysInMonth = (year, month) => {
   const d = newDate(year, month - 1, 1);
@@ -34,4 +35,4 @@ const getNextMonth = (year, month) => {
   };
 };
 
-export const jalaliAdapter = { getDaysInMonth, getFirstWeekday, getPreviousMonth, getNextMonth };
+export const gregorianProvider = { getDaysInMonth, getFirstWeekday, getPreviousMonth, getNextMonth };

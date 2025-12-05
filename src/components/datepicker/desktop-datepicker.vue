@@ -3,10 +3,11 @@ import { ref, computed, watch, reactive } from "vue";
 import { langDates } from "@/constants/langDates";
 import IconClose from "@/components/icons/icon-close.vue";
 import BaseButton from "@/components/ui/base-button.vue";
-import GridFilter from "@/components/filter/grid-filter.vue";
-import GridDays from "@/components/grids/grid-days.vue";
-import GridMonths from "@/components/grids/grid-months.vue";
-import GridYears from "@/components/grids/grid-years.vue";
+import GridFilter from "@/components/common/grid-filter.vue";
+import GridDays from "@/components/common/grid-days.vue";
+import GridMonths from "@/components/common/grid-months.vue";
+import GridYears from "@/components/common/grid-years.vue";
+import sameDate from "@/utils/sameDate";
 
 const props = defineProps({
   activeLang: String,
@@ -22,15 +23,12 @@ const date = reactive({ year: null, month: null, day: null });
 const selectedRange = reactive({ start: {}, end: {} });
 const multipleSelections = reactive([]);
 
-const weekdays = computed(() => langDates.langs[props.activeLang].weekdays);
-const currentMonthText = computed(
-  () =>
-    langDates.langs[props.activeLang].months[
-      date.month ? date.month - 1 : props.todayDate.month - 1
-    ],
-);
-const mainText = computed(() => langDates.langs[props.activeLang].mainText);
-const todayText = computed(() => langDates.langs[props.activeLang].todayText);
+const activeLangDates = langDates.langs[props.activeLang];
+const currentMonth = computed(() => (date.month ? date.month - 1 : props.todayDate.month - 1));
+const weekdays = computed(() => activeLangDates.weekdays);
+const todayText = computed(() => activeLangDates.todayText);
+const mainText = computed(() => activeLangDates.mainText);
+const currentMonthText = computed(() => activeLangDates.months[currentMonth.value]);
 
 watch([date], () => {
   selectedRange.end = {};
@@ -48,14 +46,9 @@ const handleDayClick = (cell) => {
     date.year = cell.year;
   }
   if (props.mode === "multiple" && cell.enable) {
-    const selectedItemIndex = multipleSelections.findIndex(
-      (item) => item.day === cell.day && item.month === cell.month && item.year === cell.year,
-    );
-    if (selectedItemIndex !== -1) {
-      multipleSelections.splice(selectedItemIndex, 1);
-    } else {
-      multipleSelections.push({ year: cell.year, month: cell.month, day: cell.day });
-    }
+    const selectedItemIndex = multipleSelections.findIndex((item) => sameDate(item, cell));
+    if (selectedItemIndex !== -1) multipleSelections.splice(selectedItemIndex, 1);
+    else multipleSelections.push({ year: cell.year, month: cell.month, day: cell.day });
   }
   if (props.mode === "range" && cell.enable && cell.current) {
     if (!selectedRange.start.day) {
@@ -121,7 +114,6 @@ const clickHandler = () => {
     <grid-filter
       :currentMonthText="currentMonthText"
       :show-years="showYears"
-      :show-months="showMonths"
       :year="date.year ? date.year : engine.grid.value[0].year"
       :active-lang="activeLang"
       @update:showYears="(e) => ((showYears = e), (showMonths = !e))"

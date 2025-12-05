@@ -2,7 +2,7 @@ import { persianToEnglish } from "@/utils/replaceNumbers";
 
 const options = { year: "numeric", month: "numeric", day: "numeric" };
 
-const adapters = {
+const providers = {
   jalaali: {
     locale: "fa-IR-u-ca-persian",
     parse(date) {
@@ -27,9 +27,9 @@ const adapters = {
 };
 
 const useGetToday = (locale = "jalaali") => {
-  const adapter = adapters[locale];
+  const provider = providers[locale];
   const today = new Date();
-  return adapter.parse(today);
+  return provider.parse(today);
 };
 
 export default useGetToday;
