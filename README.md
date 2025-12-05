@@ -74,8 +74,9 @@ calender component accept these common props:
 | Prop     | Type      | Default                   | Description                 | Other options             |
 | -------- | --------- | ------------------------- | --------------------------- | ------------------------- |
 | `format` | `string`  | `"YYYY/MM/DD"`            | Format of the dates         | `YYYY.MM.DD` `YYYY-MM-DD` |
-| `min`    | `string`  | `1400/1/1`                | min age that calender shows | `any`                     |
-| `max`    | `string`  | `1405/1/1`                | max age that calender shows | `any`                     |
+| `min`    | `string`  | `1400/1/1`                | min age that calender shows | `any date`                |
+| `max`    | `string`  | `1405/1/1`                | max age that calender shows | `any date`                |
+|`defaults`| `array`   | `[]`                      | default values if user don't choose the date | `any date`|
 | `mode`   | `string`  | `single`                  | change the mode of calender | `range` `multiple`        |
 |`headless`| `boolean` | `false`                   | assign to a input or not    | `true`                    |
 
@@ -85,6 +86,10 @@ calender component accept these common props:
 - [date-fns](https://date-fns.org/) - A calendar system plugin.
 
 ## Change log
+
+#### 0.2.0 (2025-12-05)
+- feat: add the defaults values as a props
+- fix: fix the selecting issues for months and years
 
 #### 0.1.1 (2025-12-03)
 - fix: fix the selection issue in ranges and multiples
