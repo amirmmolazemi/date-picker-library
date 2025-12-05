@@ -12,6 +12,7 @@ const props = defineProps({
   format: { type: String, default: "YYYY-MM-DD" },
   min: { type: String, default: "1404/01/01" },
   max: { type: String, default: "2026/12/08" },
+  defaults: { type: Array, default: [] },
   headless: { type: Boolean, default: false },
   locales: { type: Boolean, default: true },
   mode: {
@@ -34,11 +35,28 @@ const today = useGetToday(activeLang.value);
 const adapter = computed(() => langDates.langs[activeLang.value].adapter);
 const months = computed(() => langDates.langs[activeLang.value].months);
 const direction = computed(() => langDates.langs[activeLang.value].direction);
+const defaultDates = computed(() => {
+  if (props.mode === "single") {
+    if (!props.defaults[0]) return `${null}/${null}/${null}`;
+    const splitedDate = props.defaults[0].split("/");
+    return `${+splitedDate[0]}/${+splitedDate[1]}/${+splitedDate[2]}`;
+  }
+  if (props.mode === "range") {
+    if (props.defaults.length < 2) return null;
+    const [startYear, startMonth, startDay] = props.defaults[0].split("/");
+    const [endYear, endMonth, endDay] = props.defaults[1].split("/");
+    return `${startYear}/${startMonth}/${startDay} | ${endYear}/${endMonth}/${endDay}`;
+  }
+  if (props.mode === "multiple") {
+    if (props.defaults.length < 1) return [];
+    return props.defaults.map((item) => {
+      const [year, month, day] = item.split("/");
+      return { year, month, day };
+    });
+  }
+});
 
-const engine = createCalendarEngine(adapter.value, today.year, today.month, true, [
-  props.min,
-  props.max,
-]);
+const engine = createCalendarEngine(adapter.value, today, [props.min, props.max]);
 
 const years = computed(() => {
   let start = Number(props.min.split("/")[0]);
@@ -47,7 +65,8 @@ const years = computed(() => {
 });
 
 const formatDate = (date) => {
-  const formattedDate = props.mode === "single" ? dateFormatter(date, props.format) : date;
+  const result = date ? date : defaultDates.value;
+  const formattedDate = props.mode === "single" ? dateFormatter(result, props.format) : result;
   model.value = formattedDate;
   if (!props.headless) showCalender.value = false;
   else emit("close");

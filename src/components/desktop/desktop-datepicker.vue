@@ -18,12 +18,17 @@ const props = defineProps({
 });
 const showMonths = ref(false);
 const showYears = ref(false);
-const date = reactive({ ...props.todayDate });
+const date = reactive({ year: null, month: null, day: null });
 const selectedRange = reactive({ start: {}, end: {} });
-const multipleSelections = reactive([{ ...props.todayDate }]);
+const multipleSelections = reactive([]);
 
 const weekdays = computed(() => langDates.langs[props.activeLang].weekdays);
-const currentMonthText = computed(() => langDates.langs[props.activeLang].months[date.month ? date.month - 1 : props.todayDate.month - 1]);
+const currentMonthText = computed(
+  () =>
+    langDates.langs[props.activeLang].months[
+      date.month ? date.month - 1 : props.todayDate.month - 1
+    ],
+);
 const mainText = computed(() => langDates.langs[props.activeLang].mainText);
 const todayText = computed(() => langDates.langs[props.activeLang].todayText);
 
@@ -37,7 +42,11 @@ watch([date], () => {
 watch([selectedRange, date, multipleSelections], () => emit("changed"));
 
 const handleDayClick = (cell) => {
-  if (props.mode === "single" && cell.current && cell.enable) date.day = cell.day;
+  if (props.mode === "single" && cell.current && cell.enable) {
+    date.day = cell.day;
+    date.month = cell.month;
+    date.year = cell.year;
+  }
   if (props.mode === "multiple" && cell.enable) {
     const selectedItemIndex = multipleSelections.findIndex(
       (item) => item.day === cell.day && item.month === cell.month && item.year === cell.year,
@@ -45,7 +54,7 @@ const handleDayClick = (cell) => {
     if (selectedItemIndex !== -1) {
       multipleSelections.splice(selectedItemIndex, 1);
     } else {
-      multipleSelections.push({ ...cell });
+      multipleSelections.push({ year: cell.year, month: cell.month, day: cell.day });
     }
   }
   if (props.mode === "range" && cell.enable && cell.current) {
@@ -67,8 +76,10 @@ const handleDayClick = (cell) => {
   }
 };
 
-const handleMonthClick = (index) => {
-  date.month = index + 1;
+const handleMonthClick = (selectedDate) => {
+  date.month = selectedDate.month + 1;
+  date.day = null;
+  if (!date.year) date.year = selectedDate.year;
   showMonths.value = false;
 };
 
@@ -81,24 +92,21 @@ const handleYearClick = (year) => {
 const emit = defineEmits(["date", "changed", "closed"]);
 
 const clickHandler = () => {
+  let finalDate;
   if (props.mode === "range") {
     const { year: startYear, month: startMonth, day: startDay } = selectedRange.start;
     const { year: endYear, month: endMonth, day: endDay } = selectedRange.end;
-    emit("date", `${startYear}/${startMonth}/${startDay} | ${endYear}/${endMonth}/${endDay}`);
-    emit("closed");
-    props.engine.setMonth(props.todayDate.month);
-    props.engine.setYear(props.todayDate.year);
-    return;
+    const textTemplate = `${startYear}/${startMonth}/${startDay} | ${endYear}/${endMonth}/${endDay}`;
+    finalDate = startDay && endDay ? textTemplate : null;
   }
   if (props.mode === "multiple") {
-    emit("date", multipleSelections);
-    emit("closed");
-    props.engine.setMonth(props.todayDate.month);
-    props.engine.setYear(props.todayDate.year);
-    return;
+    finalDate = multipleSelections.length > 0 ? multipleSelections : null;
   }
-  const { day, month, year } = date;
-  emit("date", `${year}/${month}/${day}`);
+  if (props.mode === "single") {
+    finalDate = date.day ? `${date.year}/${date.month}/${date.day}` : null;
+  }
+  emit("date", finalDate);
+  emit("closed");
   props.engine.setMonth(props.todayDate.month);
   props.engine.setYear(props.todayDate.year);
 };
@@ -110,20 +118,46 @@ const clickHandler = () => {
     <p class="header--title">{{ mainText }}</p>
   </header>
   <div class="content">
-    <grid-filter :currentMonthText="currentMonthText" :show-years="showYears" :show-months="showMonths" :date="date"
-      :active-lang="activeLang" @update:showYears="(e) => ((showYears = e), (showMonths = !e))"
-      @update:showMonths="(e) => ((showYears = !e), (showMonths = e))" />
+    <grid-filter
+      :currentMonthText="currentMonthText"
+      :show-years="showYears"
+      :show-months="showMonths"
+      :year="date.year ? date.year : engine.grid.value[0].year"
+      :active-lang="activeLang"
+      @update:showYears="(e) => ((showYears = e), (showMonths = !e))"
+      @update:showMonths="(e) => ((showYears = !e), (showMonths = e))"
+    />
     <div class="content__weekdays" v-if="!showMonths && !showYears">
       <span class="content__weekdays--day" v-for="weekday in weekdays" :key="weekday">
         {{ weekday }}
       </span>
     </div>
-    <grid-days :mode="mode" :selected-range="selectedRange" :show-months="showMonths" :showYears="showYears"
-      :date="date" :todayDate="todayDate" :active-lang="activeLang" :today-text="todayText" :engine="engine"
-      @clicked="handleDayClick" :multiple-selections="multipleSelections" />
-    <grid-months :show-months="showMonths" :date="date" :months="months" @clicked="handleMonthClick" />
-    <grid-years :show-years="showYears" :date="date" :years="years" @clicked="handleYearClick"
-      :active-lang="activeLang" />
+    <grid-days
+      :mode="mode"
+      :selected-range="selectedRange"
+      :show-months="showMonths"
+      :showYears="showYears"
+      :date="date"
+      :todayDate="todayDate"
+      :active-lang="activeLang"
+      :today-text="todayText"
+      :engine="engine"
+      @clicked="handleDayClick"
+      :multiple-selections="multipleSelections"
+    />
+    <grid-months
+      :show-months="showMonths"
+      :date="date.month ? date : todayDate"
+      :months="months"
+      @clicked="handleMonthClick"
+    />
+    <grid-years
+      :show-years="showYears"
+      :date="date.month ? date : todayDate"
+      :years="years"
+      @clicked="handleYearClick"
+      :active-lang="activeLang"
+    />
     <base-button :text="activeLang === 'jalaali' ? 'تایید' : 'submit'" @click="clickHandler" />
   </div>
 </template>
