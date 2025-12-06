@@ -86,33 +86,35 @@ const changeDateHandler = (item) => {
 </script>
 
 <template>
-  <div v-if="showCalender" class="overlay" @click="closeHandler"></div>
-  <div class="container" v-if="showCalender">
-    <desktop-datepicker
-      :months="months"
-      :years="years"
-      @date="formatDate"
-      @changed="changeDateHandler"
-      @closed="closeHandler"
-      :mode="props.mode"
-      :engine="engine"
-      :today-date="today"
-    />
-    <mobile-datepicker
-      :months="months"
-      :showCalender="showCalender"
-      :years="years"
-      @changed="changeDateHandler"
-      :engine="engine"
-      :today="today"
-      :min="min"
-      :max="max"
+  <div class="datepicker">
+    <div v-if="showCalender" class="overlay" @click="closeHandler"></div>
+    <div class="container" v-if="showCalender">
+      <desktop-datepicker
+        :months="months"
+        :years="years"
+        @date="formatDate"
+        @changed="changeDateHandler"
+        @closed="closeHandler"
+        :mode="props.mode"
+        :engine="engine"
+        :today-date="today"
+      />
+      <mobile-datepicker
+        :months="months"
+        :showCalender="showCalender"
+        :years="years"
+        @changed="changeDateHandler"
+        :engine="engine"
+        :today="today"
+        :min="min"
+        :max="max"
+      />
+    </div>
+    <base-input
+      v-if="!headless"
+      @click="showCalender = true"
+      :value="model"
+      :placeholder="props.mode !== 'multiple' ? model : ''"
     />
   </div>
-  <base-input
-    v-if="!headless"
-    @click="showCalender = true"
-    :value="model"
-    :placeholder="props.mode !== 'multiple' ? model : ''"
-  />
 </template>

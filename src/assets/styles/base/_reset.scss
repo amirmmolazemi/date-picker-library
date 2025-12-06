@@ -1,33 +1,15 @@
-* {
-  box-sizing: border-box;
-}
+.datepicker {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    user-select: none;
+  }
 
-body {
-  margin: 0;
-  direction: rtl;
-  user-select: none;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-p,
-figure {
-  margin: 0;
-}
-
-input,
-button,
-textarea,
-select {
-  font: inherit;
-  border: none;
-}
-
-input,
-textarea {
-  outline: none;
+  input,
+  button {
+    font: inherit;
+    border: none;
+    outline: none;
+  }
 }
