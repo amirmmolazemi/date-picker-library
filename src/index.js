@@ -1,3 +1,10 @@
 import "@/assets/styles/library/index.scss";
 import DatePicker from "./components/datepicker/date-picker.vue";
-export default DatePicker;
+import { i18n } from "./i18n";
+
+function install(app) {
+  app.use(i18n);
+  app.component("DatePicker", DatePicker);
+}
+
+export default { install, DatePicker };
