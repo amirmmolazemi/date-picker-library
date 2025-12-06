@@ -42,7 +42,6 @@ if you want to access to the events that the library provides, use this code
 ```vue
 <script setup>
 import { ref } from "vue";
-import DatePicker from "moli-vue-date-picker";
 const date = ref("")
 </script>
 
@@ -59,7 +58,6 @@ if you want to declare the calender headless use this code
 ```vue
 <script setup>
 import { ref } from "vue";
-import DatePicker from "./components/date-picker.vue";
 const date = ref("")
 const show = ref(false)
 </script>
@@ -91,6 +89,9 @@ calender component accept these common props:
 Internationalization plugin for Vue.js
 
 ## Change log
+
+#### 0.3.1 (2025-12-06)
+- docs: fix some issues in document for wrong syntax
 
 #### 0.3.0 (2025-12-06)
 - feat: add the localization options for gregorian and jalaali
