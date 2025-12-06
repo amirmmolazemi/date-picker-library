@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref, watch } from "vue";
-import { langDates } from "@/constants/langDates";
+import { useI18n } from "vue-i18n";
 import { createCalendarEngine } from "@/composables/useCalenderEngine";
 import useGetToday from "@/composables/useGetToday";
 import dateFormatter from "@/utils/dateFormatter";
@@ -27,12 +27,15 @@ const props = defineProps({
 const emit = defineEmits(["close", "open", "changed"]);
 const model = defineModel();
 
-const activeLang = ref("jalaali");
+const { locale, getLocaleMessage } = useI18n();
 const showCalender = ref(props.headless);
 
-const provider = computed(() => langDates.langs[activeLang.value].provider);
-const months = computed(() => langDates.langs[activeLang.value].months);
-const direction = computed(() => langDates.langs[activeLang.value].direction);
+const provider = computed(() => getLocaleMessage(locale.value).provider);
+const months = computed(() => getLocaleMessage(locale.value).months);
+const today = computed(() => useGetToday(locale.value));
+const engine = computed(() =>
+  createCalendarEngine(provider.value, today.value, [props.min, props.max]),
+);
 const defaultDates = computed(() => {
   if (props.mode === "single") {
     if (!props.defaults[0]) return `${null}/${null}/${null}`;
@@ -59,9 +62,6 @@ const years = computed(() => {
   return Array.from({ length: end - start + 1 }, (_, i) => start + i);
 });
 
-const today = useGetToday(activeLang.value);
-const engine = createCalendarEngine(provider.value, today, [props.min, props.max]);
-
 const formatDate = (date) => {
   const result = date ? date : defaultDates.value;
   const formattedDate = props.mode === "single" ? dateFormatter(result, props.format) : result;
@@ -87,15 +87,14 @@ const changeDateHandler = (item) => {
 
 <template>
   <div v-if="showCalender" class="overlay" @click="closeHandler"></div>
-  <div class="container" v-if="showCalender" :dir="direction">
+  <div class="container" v-if="showCalender">
     <desktop-datepicker
-      :active-lang="activeLang"
       :months="months"
       :years="years"
       @date="formatDate"
       @changed="changeDateHandler"
       @closed="closeHandler"
-      :mode="mode"
+      :mode="props.mode"
       :engine="engine"
       :today-date="today"
     />
@@ -114,6 +113,6 @@ const changeDateHandler = (item) => {
     v-if="!headless"
     @click="showCalender = true"
     :value="model"
-    :placeholder="mode !== 'multiple' ? model : ''"
+    :placeholder="props.mode !== 'multiple' ? model : ''"
   />
 </template>

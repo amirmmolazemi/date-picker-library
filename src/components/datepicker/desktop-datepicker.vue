@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, watch, reactive } from "vue";
-import { langDates } from "@/constants/langDates";
+import { useI18n } from "vue-i18n";
 import IconClose from "@/components/icons/icon-close.vue";
 import BaseButton from "@/components/ui/base-button.vue";
 import GridFilter from "@/components/common/grid-filter.vue";
@@ -10,7 +10,6 @@ import GridYears from "@/components/common/grid-years.vue";
 import sameDate from "@/utils/sameDate";
 
 const props = defineProps({
-  activeLang: String,
   mode: String,
   months: Array,
   years: Array,
@@ -19,16 +18,17 @@ const props = defineProps({
 });
 const showMonths = ref(false);
 const showYears = ref(false);
+const { locale, getLocaleMessage } = useI18n();
 const date = reactive({ year: null, month: null, day: null });
 const selectedRange = reactive({ start: {}, end: {} });
 const multipleSelections = reactive([]);
 
-const activeLangDates = langDates.langs[props.activeLang];
 const currentMonth = computed(() => (date.month ? date.month - 1 : props.todayDate.month - 1));
-const weekdays = computed(() => activeLangDates.weekdays);
-const todayText = computed(() => activeLangDates.todayText);
-const mainText = computed(() => activeLangDates.mainText);
-const currentMonthText = computed(() => activeLangDates.months[currentMonth.value]);
+const weekdays = computed(() => getLocaleMessage(locale.value).weekdays);
+const todayText = computed(() => getLocaleMessage(locale.value).todayText);
+const mainText = computed(() => getLocaleMessage(locale.value).mainText);
+const direction = computed(() => getLocaleMessage(locale.value).direction);
+const currentMonthText = computed(() => getLocaleMessage(locale.value).months[currentMonth.value]);
 
 watch([date], () => {
   selectedRange.end = {};
@@ -115,11 +115,11 @@ const clickHandler = () => {
       :currentMonthText="currentMonthText"
       :show-years="showYears"
       :year="date.year ? date.year : engine.grid.value[0].year"
-      :active-lang="activeLang"
+      :active-lang="locale"
       @update:showYears="(e) => ((showYears = e), (showMonths = !e))"
       @update:showMonths="(e) => ((showYears = !e), (showMonths = e))"
     />
-    <div class="content__weekdays" v-if="!showMonths && !showYears">
+    <div class="content__weekdays" v-if="!showMonths && !showYears" :dir="direction">
       <span class="content__weekdays--day" v-for="weekday in weekdays" :key="weekday">
         {{ weekday }}
       </span>
@@ -131,9 +131,10 @@ const clickHandler = () => {
       :showYears="showYears"
       :date="date"
       :todayDate="todayDate"
-      :active-lang="activeLang"
+      :active-lang="locale"
       :today-text="todayText"
       :engine="engine"
+      :dir="direction"
       @clicked="handleDayClick"
       :multiple-selections="multipleSelections"
     />
@@ -141,15 +142,17 @@ const clickHandler = () => {
       :show-months="showMonths"
       :date="date.month ? date : todayDate"
       :months="months"
+      :dir="direction"
       @clicked="handleMonthClick"
     />
     <grid-years
       :show-years="showYears"
       :date="date.month ? date : todayDate"
       :years="years"
+      :dir="direction"
       @clicked="handleYearClick"
-      :active-lang="activeLang"
+      :active-lang="locale"
     />
-    <base-button :text="activeLang === 'jalaali' ? 'تایید' : 'submit'" @click="clickHandler" />
+    <base-button :text="locale === 'jalaali' ? 'تایید' : 'submit'" @click="clickHandler" />
   </div>
 </template>
