@@ -86,7 +86,12 @@ const closeHandler = () => {
 };
 
 const changeDateHandler = (item) => {
-  if (item?.status) model.value = dateFormatter(item.date, props.format);
+  if (item?.status) {
+    const formattedDate = dateFormatter(item.date, props.format);
+    if (typeof formattedDate === "object") placeholder.value = formattedDate.text;
+    else placeholder.value = formattedDate;
+    model.value = formattedDate;
+  }
   emit("changed");
 };
 </script>
