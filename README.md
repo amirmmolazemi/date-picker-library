@@ -74,10 +74,10 @@ calender component accept these common props:
 
 | Prop     | Type      | Default                   | Description                 | Other options             |
 | -------- | --------- | ------------------------- | --------------------------- | ------------------------- |
-| `format` | `string`  | `"YYYY/MM/DD"`            | Format of the dates         | `YYYY.MM.DD` `YYYY-MM-DD` |
+| `format` | `any`     | `"YYYY/MM/DD"`            | Formating the dates         | `timestamp` , `any format with YYYY,MM,DD` , `{ year: "YYYY", month: "MM", day: "DD" }` |
 | `min`    | `string`  | `1400/1/1`                | min age that calender shows | `any date`                |
 | `max`    | `string`  | `1405/1/1`                | max age that calender shows | `any date`                |
-|`defaults`| `array`   | `[]`                      | default values if user don't choose the date | `any date`|
+|`defaults`| `array`   | `[]`                      |default values if user don't choose the date | `any date`|
 | `mode`   | `string`  | `single`                  | change the mode of calender | `range` `multiple`        |
 |`headless`| `boolean` | `false`                   | assign to a input or not    | `true`                    |
 
@@ -89,6 +89,10 @@ calender component accept these common props:
 Internationalization plugin for Vue.js
 
 ## Change log
+
+#### 0.4.0 (2025-12-07)
+- feat: add new formats to return ( add timestamp and objectTemplate )
+- docs: add new props options
 
 #### 0.3.1 (2025-12-06)
 - docs: fix some issues in document for wrong syntax
