@@ -90,6 +90,9 @@ Internationalization plugin for Vue.js
 
 ## Change log
 
+#### 0.4.1 (2025-12-07)
+- fix: fix the mobile device bug for formatting date
+
 #### 0.4.0 (2025-12-07)
 - feat: add new formats to return ( add timestamp and objectTemplate )
 - docs: add new props options
