@@ -9,7 +9,7 @@ import DesktopDatepicker from "@/components/datepicker/desktop-datepicker.vue";
 import BaseInput from "@/components/ui/base-input.vue";
 
 const props = defineProps({
-  format: { type: String, default: "YYYY-MM-DD" },
+  format: { default: "YYYY/MM/DD" },
   min: { type: String, default: "1404/01/01" },
   max: { type: String, default: "2026/12/08" },
   defaults: { type: Array, default: [] },
@@ -29,6 +29,7 @@ const model = defineModel();
 
 const { locale, getLocaleMessage } = useI18n();
 const showCalender = ref(props.headless);
+const placeholder = ref("");
 
 const provider = computed(() => getLocaleMessage(locale.value).provider);
 const months = computed(() => getLocaleMessage(locale.value).months);
@@ -38,7 +39,7 @@ const engine = computed(() =>
 );
 const defaultDates = computed(() => {
   if (props.mode === "single") {
-    if (!props.defaults[0]) return `${null}/${null}/${null}`;
+    if (!props.defaults[0]) return null;
     const splitedDate = props.defaults[0].split("/");
     return `${+splitedDate[0]}/${+splitedDate[1]}/${+splitedDate[2]}`;
   }
@@ -49,7 +50,7 @@ const defaultDates = computed(() => {
     return `${startYear}/${startMonth}/${startDay} | ${endYear}/${endMonth}/${endDay}`;
   }
   if (props.mode === "multiple") {
-    if (props.defaults.length < 1) return [];
+    if (props.defaults.length < 1) return null;
     return props.defaults.map((item) => {
       const [year, month, day] = item.split("/");
       return { year, month, day };
@@ -64,7 +65,12 @@ const years = computed(() => {
 
 const formatDate = (date) => {
   const result = date ? date : defaultDates.value;
-  const formattedDate = props.mode === "single" ? dateFormatter(result, props.format) : result;
+  const formattedDate = dateFormatter(result, props.format);
+  if (typeof formattedDate === "object") {
+    placeholder.value = formattedDate.text;
+  } else {
+    placeholder.value = formattedDate;
+  }
   model.value = formattedDate;
   if (!props.headless) showCalender.value = false;
   else emit("close");
@@ -114,7 +120,7 @@ const changeDateHandler = (item) => {
       v-if="!headless"
       @click="showCalender = true"
       :value="model"
-      :placeholder="props.mode !== 'multiple' ? model : ''"
+      :placeholder="props.mode !== 'multiple' ? placeholder : ''"
     />
   </div>
 </template>

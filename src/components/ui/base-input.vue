@@ -1,7 +1,5 @@
 <script setup>
-defineProps({
-  placeholder: String,
-});
+const props = defineProps(["placeholder"]);
 </script>
 
 <template>
