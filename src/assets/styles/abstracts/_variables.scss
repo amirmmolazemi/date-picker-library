@@ -1,4 +1,4 @@
-// color pallet
+// Color palette
 $primary-100: #f4f7fc;
 $primary-200: #cee0fc;
 $primary-400: #84b3fe;
@@ -18,8 +18,59 @@ $text-light-base2: #5a5a5a;
 $bg-light-default: #fafafa;
 $bg-white: #ffffff;
 
-// define text variables
+// Fonts
 $font-primary: "peyda", sans-serif;
 $font-weight-regular: 400;
 $font-weight-semibold: 600;
 $font-weight-bold: 700;
+
+// Spacing (rem)
+$space-xs: 0.25rem; // 4px
+$space-sm: 0.5rem; // 8px
+$space-md: 0.75rem; // 12px
+$space-lg: 1rem; // 16px
+$space-xl: 1.25rem; // 20px
+$space-xxl: 1.5rem; // 24px
+
+// Font sizes
+$font-xs: 0.75rem; // 12px
+$font-sm: 0.875rem; // 14px
+$font-md: 1rem; // 16px
+$font-lg: 1.25rem; // 20px
+$font-xl: 1.5rem; // 24px
+
+// Calendar sizes
+$month-width: 5.625rem; // 90px
+$month-height: 3.4375rem; // 55px
+$day-size: 2rem; // 32px converted to rem
+
+// Layout sizes (converted magic numbers)
+$container-width: 22.5rem; // 360px
+$container-max-width-mobile: 37.5rem; // 600px
+$container-max-height-mobile: 28.1875rem; // 451px
+
+$radius-sm: 0.25rem; // 4px
+$radius-md: 0.5rem; // 8px
+$radius-lg: 0.625rem; // 10px
+$radius-xl: 3.75rem; // 60px
+
+// Shadows
+$shadow-container-mobile: -4.25rem 3.875rem 11rem #0000001a;
+
+// Calendar sizes
+$calender-width: 22.5rem; // 360px
+$calender-height: 12.9375rem; // 207px
+
+$calender-gap: 3.5rem; // 56px
+$calender-block-width: 4.25rem; // 68px
+$calender-text-width: 4rem; // 64px
+
+// Weekday/day sizes
+$weekday-width: 1.875rem; // 30px
+$weekday-height: 1rem; // 16px
+$day-gradient-radius: 0.625rem;
+
+// Misc
+$scrollbar-width-sm: 0.25rem;
+$text-today-size: 0.625rem; // 10px
+$text-today-line: 0.75rem; // 12px

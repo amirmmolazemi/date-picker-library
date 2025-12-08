@@ -4,19 +4,19 @@
 .header {
   @include flex();
   position: relative;
-  margin-bottom: 12px;
-  height: 24px;
+  margin-bottom: $space-md;
+  height: $space-xxl;
 
-  &--title {
-    font-size: 12px;
-    line-height: 16px;
+  &__title {
+    font-size: $font-xs;
+    line-height: 1rem;
     color: $text-light-base;
   }
 
-  &--close {
+  &__close {
     cursor: pointer;
-    width: 24px;
-    height: 24px;
+    width: $space-xxl;
+    height: $space-xxl;
     position: absolute;
     right: 0;
   }
@@ -25,62 +25,52 @@
 .content {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: $space-xl;
 
   &__filter {
-    display: flex;
-    justify-content: space-between;
-    height: 24px;
+    @include flex(space-between, center);
+    height: $space-xxl;
 
     .locale-dropdown {
       position: absolute;
-      top: 19%;
+      top: 19%; // If you want, we can also convert this to a variable
       left: 68%;
-      width: 100px;
+      width: 6.25rem;
       background-color: $gray-200;
-      border-radius: 4px;
+      border-radius: $radius-sm;
       z-index: 50;
 
-      &--item {
-        padding: 8px;
+      &__item {
+        padding: $space-sm;
         cursor: pointer;
-        font-size: 12px;
+        font-size: $font-xs;
         color: $text-light-base;
       }
     }
 
-    &--item {
-      font-size: 12px;
-      line-height: 16px;
-      @include flex(start, center, 4px);
+    &__item {
+      @include flex(flex-start, center, $space-xs);
+      font-size: $font-xs;
       color: $text-light-base;
       cursor: pointer;
     }
   }
 
   &__months {
-    display: grid;
-    justify-content: space-between;
-    grid-template-columns: repeat(3, 90px);
-    grid-template-rows: repeat(4, 55px);
-    gap: 12px;
-    flex: 1;
-    overflow-y: auto;
-    max-height: 256px;
-    margin-bottom: 4px;
+    @include calendar-grid(3, 4);
 
-    &--month {
+    &__month {
       border: 1px solid $gray-200;
-      border-radius: 10px;
-      height: 55px;
+      border-radius: $radius-lg;
+      height: $month-height;
       @include flex();
-      line-height: 20px;
-      font-size: 12px;
+      line-height: 1.25rem;
+      font-size: $font-xs;
       color: $text-light-base2;
       cursor: pointer;
       transition: all 0.2s ease;
 
-      &.selected {
+      &--selected {
         background-color: $primary-main;
         color: $text-dark-primary;
       }
@@ -88,54 +78,65 @@
   }
 
   &__years {
-    @extend .content__months;
-    padding-right: 12px;
+    @include calendar-grid(3, 4);
+    padding-right: $space-md;
     direction: ltr;
 
-    &--year {
-      @extend .content__months--month;
+    &__year {
+      border: 1px solid $gray-200;
+      border-radius: $radius-lg;
+      height: $month-height;
+      @include flex();
+      line-height: 1.25rem;
+      font-size: $font-xs;
+      color: $text-light-base2;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &--selected {
+        background-color: $primary-main;
+        color: $text-dark-primary;
+      }
     }
 
     &::-webkit-scrollbar {
-      width: 4px;
+      width: $scrollbar-width-sm;
     }
 
     &::-webkit-scrollbar-track {
-      border-radius: 10px;
+      border-radius: $radius-lg;
       background-color: $primary-200;
-      border-left: 1px solid white;
-      border-right: 1px solid white;
+      border-left: 1px solid $bg-white;
+      border-right: 1px solid $bg-white;
     }
 
     &::-webkit-scrollbar-thumb {
-      border-radius: 4px;
+      border-radius: $radius-sm;
       background-color: $primary-400;
     }
   }
 
   &__weekdays {
-    height: 16px;
-    display: flex;
-    justify-content: space-between;
+    height: $weekday-height;
+    @include flex(space-between, center);
     background-color: $bg-light-default;
-    border-radius: 4px;
-    padding-inline: 2px;
+    border-radius: $radius-sm;
+    padding-inline: $space-xs;
 
-    &--day {
-      width: 30px;
+    &__day {
+      width: $weekday-width;
       text-align: center;
-      font-size: 12px;
-      line-height: 16px;
+      font-size: $font-xs;
+      line-height: $weekday-height;
       color: $text-light-base;
     }
   }
 
   &__days {
     display: grid;
-    justify-content: space-between;
-    grid-template-columns: repeat(7, 32px);
-    grid-auto-rows: 32px;
-    gap: 16px;
+    grid-template-columns: repeat(7, $day-size);
+    grid-auto-rows: $day-size;
+    gap: $space-lg;
     position: relative;
 
     &__week-gradient {
@@ -145,35 +146,38 @@
       right: 0;
       bottom: 0;
       background: linear-gradient(to right, #cee0fc26, #cee0fc);
-      border-radius: 10px;
+      border-radius: $day-gradient-radius;
       z-index: 0;
       pointer-events: none;
     }
 
     &__day {
-      border-radius: 10px;
+      border-radius: $radius-lg;
       position: relative;
       z-index: 1;
-      font-size: 14px;
+      font-size: $font-sm;
       color: $text-light-base;
       cursor: pointer;
       @include flex();
       transition: all 0.2s ease;
+
       &:hover {
         background-color: $primary-200;
       }
 
       &--today {
-        font-size: 10px;
+        font-size: $text-today-size;
         color: $text-light-info;
         position: absolute;
-        bottom: 1px;
+        bottom: 0;
         left: 50%;
         transform: translateX(-50%);
-        line-height: 12px;
+        line-height: $text-today-line;
       }
 
-      &.selected {
+      &--selected,
+      &--range-start,
+      &--range-end {
         background-color: $primary-main;
         color: $text-dark-primary;
 
@@ -186,16 +190,8 @@
         }
       }
 
-      &.not-current {
-        color: #a5a5a5;
-      }
-      &.range-end,
-      &.range-start {
-        background-color: $primary-main;
-        color: $text-dark-primary;
-        & > * {
-          color: $text-dark-primary;
-        }
+      &--not-current {
+        color: $gray-400;
       }
     }
   }

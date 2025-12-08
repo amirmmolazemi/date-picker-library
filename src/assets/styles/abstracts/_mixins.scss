@@ -1,7 +1,19 @@
+@use "../abstracts/variables" as *;
+
 @mixin flex($justify: center, $align: center, $gap: 0, $direction: row) {
   display: flex;
   justify-content: $justify;
   align-items: $align;
   gap: $gap;
   flex-direction: $direction;
+}
+
+@mixin calendar-grid($columns: 3, $rows: 4) {
+  display: grid;
+  justify-content: space-between;
+  grid-template-columns: repeat($columns, $month-width);
+  grid-template-rows: repeat($rows, $month-height);
+  gap: $space-md;
+  overflow-y: auto;
+  max-height: 16rem;
 }

@@ -2,17 +2,17 @@
 @use "../abstracts/mixins" as *;
 
 .calender {
-  width: 360px;
-  height: 207px;
+  width: $calender-width;
+  height: $calender-height;
   display: none;
-  gap: 56px;
+  gap: $calender-gap;
   justify-content: center;
   align-items: center;
 
   &__block {
-    width: 68px;
-    height: 207px;
-    @include flex(start, center, 12px, column);
+    width: $calender-block-width;
+    height: $calender-height;
+    @include flex(start, center, $space-md, column);
     overflow-y: scroll;
     position: relative;
     scroll-snap-type: y mandatory;
@@ -21,14 +21,14 @@
       display: none;
     }
 
-    &--text {
-      width: 68px;
-      line-height: 32px;
+    &__text {
+      width: $calender-text-width;
+      line-height: 2rem;
       font-weight: $font-weight-semibold;
       color: $gray-400;
       scroll-snap-align: center;
       text-align: center;
-      &.today {
+      &--today {
         color: $primary-main;
         border-top: 1px solid $primary-main;
         border-bottom: 1px solid $primary-main;
