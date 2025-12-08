@@ -120,7 +120,7 @@ watch(date, () => {
 });
 
 const scrollToToday = (ref) => {
-  const element = ref.value?.querySelector(".today");
+  const element = ref.value?.querySelector(".calender__block__text--today");
   if (element) element.scrollIntoView({ block: "center" });
 };
 
@@ -137,8 +137,10 @@ onMounted(async () => {
       <span
         v-for="(item, i) in currentDays"
         :key="i"
-        class="calender__block--text"
-        :class="{ today: date.day === item.value && item.zone === 'original' }"
+        class="calender__block__text"
+        :class="{
+          'calender__block__text--today': date.day === item.value && item.zone === 'original',
+        }"
       >
         {{ englishToPersianDigit(item.value) }}
       </span>
@@ -147,9 +149,10 @@ onMounted(async () => {
       <span
         v-for="(item, i) in currentMonths"
         :key="i"
-        class="calender__block--text"
+        class="calender__block__text"
         :class="{
-          today: date.month === filteredMonths.indexOf(item.value) + 1 && item.zone === 'original',
+          'calender__block__text--today':
+            date.month === filteredMonths.indexOf(item.value) + 1 && item.zone === 'original',
         }"
       >
         {{ item.value }}
@@ -159,8 +162,10 @@ onMounted(async () => {
       <span
         v-for="(item, i) in currentYears"
         :key="i"
-        class="calender__block--text"
-        :class="{ today: date.year === item.value && item.zone === 'original' }"
+        class="calender__block__text"
+        :class="{
+          'calender__block__text--today': date.year === item.value && item.zone === 'original',
+        }"
       >
         {{ item.value }}
       </span>

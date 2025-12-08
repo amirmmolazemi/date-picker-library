@@ -25,7 +25,7 @@ const date = reactive({
   multiple: [],
 });
 const { locale, getLocaleMessage } = useI18n();
-const data = useGetProvidersData(getLocaleMessage, locale, date, props);
+const data = useGetProvidersData(getLocaleMessage, locale, date.single, props.todayDate);
 
 watch([date.single], () => {
   date.range = { start: {}, end: {} };
@@ -84,8 +84,8 @@ const clickHandler = () => {
 
 <template>
   <header class="header">
-    <icon-close class="header--close" @click="$emit('closed')" />
-    <p class="header--title">{{ data.mainText }}</p>
+    <icon-close class="header__close" @click="$emit('closed')" />
+    <p class="header__title">{{ data.mainText }}</p>
   </header>
   <div class="content">
     <grid-filter
@@ -97,7 +97,7 @@ const clickHandler = () => {
       @update:showMonths="(e) => ((showYears = !e), (showMonths = e))"
     />
     <div class="content__weekdays" v-if="!showMonths && !showYears" :dir="data.direction.value">
-      <span class="content__weekdays--day" v-for="weekday in data?.weekdays.value" :key="weekday">
+      <span class="content__weekdays__day" v-for="weekday in data?.weekdays.value" :key="weekday">
         {{ weekday }}
       </span>
     </div>

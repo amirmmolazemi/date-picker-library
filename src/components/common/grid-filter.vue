@@ -28,12 +28,12 @@ const emit = defineEmits(["update:showMonths", "update:showYears"]);
 
 <template>
   <div class="content__filter" v-if="!showYears">
-    <div class="content__filter--item" @click="showOptions = !showOptions">
+    <div class="content__filter__item" @click="showOptions = !showOptions">
       <span>{{ localeLabel }}</span>
       <icon-chevron :style="chevronStyle" />
       <div class="locale-dropdown" v-if="showOptions">
         <div
-          class="locale-dropdown--item"
+          class="locale-dropdown__item"
           v-for="label in ['jalaali', 'gregorian']"
           :key="label"
           @click.stop="changeLocale(label)"
@@ -43,7 +43,7 @@ const emit = defineEmits(["update:showMonths", "update:showYears"]);
       </div>
     </div>
     <div
-      class="content__filter--item"
+      class="content__filter__item"
       @click="
         emit('update:showYears', false);
         emit('update:showMonths', true);
@@ -53,7 +53,7 @@ const emit = defineEmits(["update:showMonths", "update:showYears"]);
       <icon-chevron />
     </div>
     <div
-      class="content__filter--item"
+      class="content__filter__item"
       @click="
         emit('update:showYears', true);
         emit('update:showMonths', false);
@@ -64,13 +64,13 @@ const emit = defineEmits(["update:showMonths", "update:showYears"]);
     </div>
   </div>
   <div class="content__filter" v-if="showYears">
-    <div class="content__filter--item" style="rotate: 180deg">
+    <div class="content__filter__item" style="rotate: 180deg">
       <!-- <icon-arrow /> -->
     </div>
-    <div class="content__filter--item">
+    <div class="content__filter__item">
       <span>{{ activeLang === "gregorian" ? year : englishToPersianDigit(year) }}</span>
     </div>
-    <div class="content__filter--item">
+    <div class="content__filter__item">
       <!-- <icon-arrow /> -->
     </div>
   </div>

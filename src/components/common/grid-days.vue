@@ -58,11 +58,11 @@ const getCellClasses = (cell, index) => {
   const isRangeEnd = sameDate(props.date.range.end, cell);
 
   return {
-    selected,
-    "not-current": !cell.current || !cell.enable,
-    "range-start": isRangeStart,
-    "range-end": isRangeEnd,
-    "in-range": isCellInRange(index),
+    "content__days__day--selected": selected,
+    "content__days__day--not-current": !cell.current || !cell.enable,
+    "content__days__day--range-start": isRangeStart,
+    "content__days__day--range-end": isRangeEnd,
+    "content__days__day--in-range": isCellInRange(index),
   };
 };
 </script>
