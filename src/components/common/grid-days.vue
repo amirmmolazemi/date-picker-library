@@ -8,8 +8,6 @@ const props = defineProps({
   showYears: Boolean,
   mode: String,
   todayDate: Object,
-  selectedRange: Object,
-  multipleSelections: Array,
   date: Object,
   engine: Object,
   activeLang: String,
@@ -21,8 +19,8 @@ defineEmits(["clicked"]);
 const inRangeWeeks = computed(() => {
   if (props.mode !== "range") return [];
   const cells = props.engine.grid.value;
-  const startIndex = cells.findIndex((cell) => sameDate(cell, props.selectedRange.start));
-  const endIndex = cells.findIndex((cell) => sameDate(cell, props.selectedRange.end));
+  const startIndex = cells.findIndex((cell) => sameDate(cell, props.date.range.start));
+  const endIndex = cells.findIndex((cell) => sameDate(cell, props.date.range.end));
 
   if (startIndex === -1 || endIndex === -1) return [];
   const weeks = [];
@@ -51,13 +49,13 @@ const isCellInRange = (index) => {
 const getCellClasses = (cell, index) => {
   const selected =
     props.mode === "single"
-      ? sameDate(props.date, cell)
-      : props.multipleSelections.some((date) => sameDate(date, cell)) &&
+      ? sameDate(props.date.single, cell)
+      : props.date.multiple.some((date) => sameDate(date, cell)) &&
         cell.enable &&
         props.mode !== "range" &&
         cell.current;
-  const isRangeStart = sameDate(props.selectedRange.start, cell);
-  const isRangeEnd = sameDate(props.selectedRange.end, cell);
+  const isRangeStart = sameDate(props.date.range.start, cell);
+  const isRangeEnd = sameDate(props.date.range.end, cell);
 
   return {
     selected,

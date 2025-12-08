@@ -35,4 +35,9 @@ const getNextMonth = (year, month) => {
   };
 };
 
-export const gregorianProvider = { getDaysInMonth, getFirstWeekday, getPreviousMonth, getNextMonth };
+export const gregorianProvider = {
+  getDaysInMonth,
+  getFirstWeekday,
+  getPreviousMonth,
+  getNextMonth,
+};

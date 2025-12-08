@@ -1,13 +1,13 @@
 <script setup>
 import { computed, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
-import { useCalendar } from "@/composables/useCalenderCreator";
-import { parseDate } from "@/utils/parseDate";
-import useGetToday from "@/composables/useGetToday";
 import dateFormatter from "@/helpers/dateFormatter";
-import MobileDatepicker from "@/components/datepicker/mobile-datepicker.vue";
+import useDateDefaults from "@/composables/useDateDefaults";
+import useCalenderCore from "@/composables/useCalenderCore";
+import useGetToday from "@/composables/useGetToday";
 import DesktopDatepicker from "@/components/datepicker/desktop-datepicker.vue";
 import BaseInput from "@/components/ui/base-input.vue";
+import MobileDatepicker from "@/components/datepicker/mobile-datepicker.vue";
 
 const props = defineProps({
   min: { type: String, default: "1404/01/08" },
@@ -29,39 +29,10 @@ const emit = defineEmits(["close", "open", "changed"]);
 const model = defineModel();
 
 const { locale, getLocaleMessage } = useI18n();
-const showCalender = ref(props.headless);
-const dateText = ref("");
-
-const provider = computed(() => getLocaleMessage(locale.value).provider);
-const months = computed(() => getLocaleMessage(locale.value).months);
 const today = computed(() => useGetToday(locale.value));
-const engine = computed(() => useCalendar(provider.value, today.value, [props.min, props.max]));
-const defaultDates = computed(() => {
-  const defaults = props.defaults;
-  if (props.mode === "single") {
-    if (!defaults[0]) return null;
-    const [year, month, day] = parseDate(defaults[0]);
-    return `${year}/${month}/${day}`;
-  }
-  if (props.mode === "range") {
-    if (props.defaults.length < 2) return null;
-    const [startYear, startMonth, startDay] = parseDate(defaults[0]);
-    const [endYear, endMonth, endDay] = parseDate(defaults[1]);
-    return `${startYear}/${startMonth}/${startDay} | ${endYear}/${endMonth}/${endDay}`;
-  }
-  if (props.mode === "multiple") {
-    if (props.defaults.length < 1) return null;
-    return props.defaults.map((item) => {
-      const [year, month, day] = item.split("/");
-      return { year, month, day };
-    });
-  }
-});
-const years = computed(() => {
-  let start = parseDate(props.min)[0];
-  let end = parseDate(props.max)[0];
-  return [...Array(end - start + 1).keys()].map((i) => start + i);
-});
+const { defaultDates } = useDateDefaults(props);
+const { engine, months, years } = useCalenderCore(props, today, locale, getLocaleMessage);
+const showCalender = ref(props.headless);
 
 const formatDate = (date) => {
   const result = date ? date : defaultDates.value;
