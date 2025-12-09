@@ -90,7 +90,7 @@ Internationalization plugin for Vue.js
 
 ## Change log
 
-#### 0.4.3 (2025-12-07)
+#### 0.4.4 (2025-12-09)
 - refactor: reduce the package bundle size and makes the project better
 
 #### 0.4.2 (2025-12-07)

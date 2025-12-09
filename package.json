@@ -1,15 +1,17 @@
 {
   "name": "moli-vue-date-picker",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "private": false,
   "main": "dist/moli-vue-date-picker.umd.js",
   "module": "dist/moli-vue-date-picker.es.js",
   "types": "dist/index.d.ts",
+  "style": "dist/main.css",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "vite build",
+    "build": "vite build --mode production",
+    "build:css": "cross-env NODE_ENV=production node_modules/.bin/sass src/assets/styles/library/index.scss dist/main.css --style compressed",
     "dev": "vite dev",
     "format": "prettier --write src/"
   },
@@ -25,9 +27,23 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.1",
+    "cross-env": "^10.1.0",
     "eslint": "^9.0.0",
     "prettier": "^3.0.0",
+    "sass": "^1.95.0",
     "sass-embedded": "^1.93.3",
     "vite": "^7.1.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amirmmolazemi/date-picker-library.git"
+  },
+  "keywords": [
+    "vue-datepicker",
+    "vue",
+    "datepicker",
+    "date",
+    "vue3-datepicker",
+    "daterangepicker"
+  ]
 }

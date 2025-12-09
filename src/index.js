@@ -1,4 +1,4 @@
-import "@/assets/styles/library/index.scss";
+import '../dist/main.css';
 import DatePicker from "./components/datepicker/date-picker.vue";
 import { i18n } from "./i18n";
 
