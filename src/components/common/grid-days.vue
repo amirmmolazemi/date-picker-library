@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from "vue";
+import { buildRangeWeeks } from "@/helpers/buildRangeWeeks";
 import { englishToPersianDigit } from "@/utils/replaceNumbers";
 import sameDate from "@/utils/sameDate";
 
@@ -15,44 +16,29 @@ const props = defineProps({
 
 defineEmits(["clicked"]);
 
+const findCellIndex = (cells, date) => cells.findIndex((cell) => sameDate(cell, date));
+
 const inRangeWeeks = computed(() => {
   if (props.selectionMode !== "range") return [];
   const cells = props.calenderEngine.calendarGrid.value;
-  const startIndex = cells.findIndex((cell) => sameDate(cell, props.selectedDates.range.start));
-  const endIndex = cells.findIndex((cell) => sameDate(cell, props.selectedDates.range.end));
-
+  const startIndex = findCellIndex(cells, props.selectedDates.range.start);
+  const endIndex = findCellIndex(cells, props.selectedDates.range.end);
   if (startIndex === -1 || endIndex === -1) return [];
-  const weeks = [];
-
-  for (let index = 0; index < cells.length; index += 7) {
-    const weekStart = index;
-    const weekEnd = index + 6;
-
-    const hasStart = startIndex >= weekStart && startIndex <= weekEnd;
-    const hasEnd = endIndex >= weekStart && endIndex <= weekEnd;
-
-    if (hasStart && hasEnd) weeks.push({ from: startIndex, to: endIndex });
-    else if (hasStart) weeks.push({ from: startIndex, to: weekEnd });
-    else if (hasEnd) weeks.push({ from: weekStart, to: endIndex });
-    else if (weekStart > startIndex && weekEnd < endIndex)
-      weeks.push({ from: weekStart, to: weekEnd });
-  }
-
-  return weeks;
+  return buildRangeWeeks(cells, startIndex, endIndex);
 });
 
-const isCellInRange = (index) => {
-  return inRangeWeeks.value.some((w) => index >= w.from && index <= w.to);
-};
+const isCellInRange = (index) => inRangeWeeks.value.some((w) => index >= w.from && index <= w.to);
 
 const getCellClasses = (cell, index) => {
-  const selected =
-    props.selectionMode === "single"
-      ? sameDate(props.selectedDates.single, cell)
-      : props.selectedDates.multiple.some((date) => sameDate(date, cell)) &&
-        cell.enable &&
-        props.selectionMode !== "range" &&
-        cell.current;
+  let selected = false;
+  if (props.selectionMode === "single") selected = sameDate(props.selectedDates.single, cell);
+  if (props.selectionMode === "multiple") {
+    const isInMultiple = props.selectedDates.multiple.some((date) => sameDate(date, cell));
+    const isEnabled = cell.enable;
+    const isCurrent = cell.current;
+    selected = isInMultiple && isEnabled && isCurrent;
+  }
+
   const isRangeStart = sameDate(props.selectedDates.range.start, cell);
   const isRangeEnd = sameDate(props.selectedDates.range.end, cell);
 

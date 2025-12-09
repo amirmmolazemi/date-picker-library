@@ -33,8 +33,8 @@
 
     .locale-dropdown {
       position: absolute;
-      top: 19%; // If you want, we can also convert this to a variable
-      left: 68%;
+      top: $locale-dropdown-top;
+      left: $locale-dropdown-left;
       width: 6.25rem;
       background-color: $gray-200;
       border-radius: $radius-sm;
@@ -49,10 +49,11 @@
     }
 
     &__item {
-      @include flex(flex-start, center, $space-xs);
-      font-size: $font-xs;
-      color: $text-light-base;
-      cursor: pointer;
+      @include filter-item();
+    }
+    &__yearNumber {
+      @include filter-item();
+      margin: auto;
     }
   }
 

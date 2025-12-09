@@ -17,3 +17,10 @@
   overflow-y: auto;
   max-height: 16rem;
 }
+
+@mixin filter-item($justify: center, $align: center, $gap: $space-xs, $color: $text-light-base) {
+  @include flex($justify, $align, $gap);
+  font-size: $font-xs;
+  color: $color;
+  cursor: pointer;
+}

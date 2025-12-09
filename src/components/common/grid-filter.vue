@@ -1,14 +1,14 @@
 <script setup>
 import { computed, ref } from "vue";
+import { useI18n } from "vue-i18n";
 import { englishToPersianDigit } from "@/utils/replaceNumbers";
 import IconChevron from "@/components/icons/icon-chevron.vue";
-import { useI18n } from "vue-i18n";
+import { langDates } from "@/constants/langDates";
 
-defineProps({
+const props = defineProps({
   currentView: { type: String, required: true },
   year: { type: Number, required: true },
   currentMonthText: { type: String, required: true },
-  locale: { type: String, default: "jalaali" },
 });
 
 const showOptions = ref(false);
@@ -17,6 +17,10 @@ const localeLabel = computed(() => getLocaleMessage(locale.value).label);
 const chevronStyle = computed(() => ({
   transform: showOptions.value ? "rotate(180deg)" : "rotate(0deg)",
 }));
+const formattedYear = computed(() =>
+  locale === "gregorian" ? props.year : englishToPersianDigit(props.year),
+);
+const locales = computed(() => Object.keys(langDates.langs));
 
 const changeLocale = (selectedLocale) => {
   showOptions.value = false;
@@ -27,14 +31,18 @@ const emit = defineEmits(["update:currentView"]);
 </script>
 
 <template>
-  <div class="content__filter" v-if="currentView !== 'years'">
-    <div class="content__filter__item" @click="showOptions = !showOptions">
+  <div class="content__filter">
+    <div
+      class="content__filter__item"
+      @click="showOptions = !showOptions"
+      v-if="currentView !== 'years'"
+    >
       <span>{{ localeLabel }}</span>
       <icon-chevron :style="chevronStyle" />
       <div class="locale-dropdown" v-if="showOptions">
         <div
           class="locale-dropdown__item"
-          v-for="label in ['jalaali', 'gregorian']"
+          v-for="label in locales"
           :key="label"
           @click.stop="changeLocale(label)"
         >
@@ -42,24 +50,24 @@ const emit = defineEmits(["update:currentView"]);
         </div>
       </div>
     </div>
-    <div class="content__filter__item" @click="emit('update:currentView', 'months')">
+    <div
+      class="content__filter__item"
+      @click="emit('update:currentView', 'months')"
+      v-if="currentView !== 'years'"
+    >
       <span>{{ currentMonthText }}</span>
       <icon-chevron />
     </div>
-    <div class="content__filter__item" @click="emit('update:currentView', 'years')">
-      <span>{{ locale === "gregorian" ? year : englishToPersianDigit(year) }}</span>
+    <div
+      class="content__filter__item"
+      @click="emit('update:currentView', 'years')"
+      v-if="currentView !== 'years'"
+    >
+      <span>{{ formattedYear }}</span>
       <icon-chevron />
     </div>
-  </div>
-  <div class="content__filter" v-if="currentView === 'years'">
-    <div class="content__filter__item">
-      <!-- <icon-arrow /> -->
-    </div>
-    <div class="content__filter__item">
-      <span>{{ locale === "gregorian" ? year : englishToPersianDigit(year) }}</span>
-    </div>
-    <div class="content__filter__item">
-      <!-- <icon-arrow /> -->
+    <div class="content__filter__yearNumber" v-if="currentView === 'years'">
+      <span>{{ formattedYear }}</span>
     </div>
   </div>
 </template>

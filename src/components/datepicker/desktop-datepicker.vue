@@ -109,7 +109,6 @@ const submitSelection = () => {
           ? selectedDates.single.year
           : calenderEngine.calendarGrid.value[0].year
       "
-      :locale="locale"
       @update:current-view="currentView = $event"
     />
     <div
