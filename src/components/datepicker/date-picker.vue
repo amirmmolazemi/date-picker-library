@@ -60,8 +60,8 @@ const closeHandler = () => {
 
 const changeDateHandler = (item) => {
   if (item?.status) {
-    const { year, month, day } = item
-    const selectedDate = `${year}/${month}/${day}`
+    const { year, month, day } = item;
+    const selectedDate = `${year}/${month}/${day}`;
     const formattedDate = dateFormatter(selectedDate, props.format);
     inputValue.value = formattedDate;
     if (typeof formattedDate === "object") inputValue.value = formattedDate.text;
@@ -74,16 +74,34 @@ const changeDateHandler = (item) => {
   <div class="datepicker">
     <div v-if="isCalendarVisible" class="overlay" @click="closeHandler"></div>
     <div class="container" v-if="isCalendarVisible">
-      <desktop-datepicker :availableMonths="availableMonths" :availableYears="availableYears" @date="formatDate"
-        @changed="changeDateHandler" @closed="closeHandler" @update-month="calenderEngine.updateMonth($event)"
-        @update-year="calenderEngine.updateYear($event)" :selectionMode="props.mode" :calender-engine="calenderEngine"
-        :today="today" />
-      <mobile-datepicker :availableMonths="availableMonths" :availableYears="availableYears"
-        @changed="changeDateHandler" @update-month="calenderEngine.updateMonth($event)"
-        @update-year="calenderEngine.updateYear($event)" :calender-engine="calenderEngine" :today="today"
-        :min-date="min" :max-date="max" />
+      <desktop-datepicker
+        :availableMonths="availableMonths"
+        :availableYears="availableYears"
+        @date="formatDate"
+        @changed="changeDateHandler"
+        @closed="closeHandler"
+        @update-month="calenderEngine.updateMonth($event)"
+        @update-year="calenderEngine.updateYear($event)"
+        :selectionMode="props.mode"
+        :calender-engine="calenderEngine"
+        :today="today"
+      />
+      <mobile-datepicker
+        :availableMonths="availableMonths"
+        :availableYears="availableYears"
+        @changed="changeDateHandler"
+        @update-month="calenderEngine.updateMonth($event)"
+        @update-year="calenderEngine.updateYear($event)"
+        :calender-engine="calenderEngine"
+        :today="today"
+        :min-date="min"
+        :max-date="max"
+      />
     </div>
-    <base-input v-if="!headless" @click="isCalendarVisible = true"
-      :placeholder="props.mode !== 'multiple' ? inputValue : ''" />
+    <base-input
+      v-if="!headless"
+      @click="isCalendarVisible = true"
+      :placeholder="props.mode !== 'multiple' ? inputValue : ''"
+    />
   </div>
 </template>

@@ -28,12 +28,7 @@ export default defineConfig({
     },
     minify: "terser",
     rollupOptions: {
-      external: ["vue"],
-      output: {
-        globals: {
-          vue: "Vue",
-        },
-      },
+      external: ["vue", "vue-i18n", "@vueuse/core", /^date-fns/],
     },
   },
 });

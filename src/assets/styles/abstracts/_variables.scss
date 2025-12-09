@@ -1,5 +1,4 @@
 // Color palette
-$primary-100: #f4f7fc;
 $primary-200: #cee0fc;
 $primary-400: #84b3fe;
 $primary-600: #2471eb;
@@ -8,7 +7,6 @@ $primary-main: #2f7bf5;
 $gray-100: #f6f8ff;
 $gray-200: #dadce5;
 $gray-400: #a2a5b0;
-$gray-700: #5b5e69;
 
 $text-light-info: #2d89e9;
 $text-dark-primary: #f4f4f4;
@@ -19,10 +17,7 @@ $bg-light-default: #fafafa;
 $bg-white: #ffffff;
 
 // Fonts
-$font-primary: "peyda", sans-serif;
-$font-weight-regular: 400;
 $font-weight-semibold: 600;
-$font-weight-bold: 700;
 
 // Spacing (rem)
 $space-xs: 0.25rem; // 4px
@@ -35,9 +30,6 @@ $space-xxl: 1.5rem; // 24px
 // Font sizes
 $font-xs: 0.75rem; // 12px
 $font-sm: 0.875rem; // 14px
-$font-md: 1rem; // 16px
-$font-lg: 1.25rem; // 20px
-$font-xl: 1.5rem; // 24px
 
 // Calendar sizes
 $month-width: 5.625rem; // 90px

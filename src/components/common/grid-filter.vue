@@ -52,7 +52,7 @@ const emit = defineEmits(["update:currentView"]);
     </div>
     <div
       class="content__filter__item"
-      @click="emit('update:currentView', {current: 'months'})"
+      @click="emit('update:currentView', { current: 'months' })"
       v-if="currentView !== 'years'"
     >
       <span>{{ currentMonthText }}</span>
@@ -60,7 +60,7 @@ const emit = defineEmits(["update:currentView"]);
     </div>
     <div
       class="content__filter__item"
-      @click="emit('update:currentView', {current: 'years'})"
+      @click="emit('update:currentView', { current: 'years' })"
       v-if="currentView !== 'years'"
     >
       <span>{{ formattedYear }}</span>

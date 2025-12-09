@@ -10,7 +10,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "vite build --mode production",
+    "build": "npm run build:css && vite build --mode production",
     "build:css": "cross-env NODE_ENV=production node_modules/.bin/sass src/assets/styles/library/index.scss dist/main.css --style compressed",
     "dev": "vite dev",
     "format": "prettier --write src/"

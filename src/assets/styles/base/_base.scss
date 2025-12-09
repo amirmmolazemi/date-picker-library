@@ -1,6 +1,6 @@
 @use "../abstracts/variables" as *;
 
 .datepicker {
-  font-family: $font-primary;
+  font-family: inherit;
   direction: rtl;
 }

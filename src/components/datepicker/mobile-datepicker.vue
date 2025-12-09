@@ -133,27 +133,42 @@ onMounted(async () => {
 <template>
   <div class="calender">
     <div class="calender__block" ref="dayColumnRef" @scroll="handleDayScroll">
-      <span v-for="(item, i) in scrollableDays" :key="i" class="calender__block__text" :class="{
-        'calender__block__text--today':
-          selectedDate.day === item.value && item.zone === 'original',
-      }">
+      <span
+        v-for="(item, i) in scrollableDays"
+        :key="i"
+        class="calender__block__text"
+        :class="{
+          'calender__block__text--today':
+            selectedDate.day === item.value && item.zone === 'original',
+        }"
+      >
         {{ englishToPersianDigit(item.value) }}
       </span>
     </div>
     <div class="calender__block" ref="monthColumnRef" @scroll="handleMonthScroll">
-      <span v-for="(item, i) in scrollableMonths" :key="i" class="calender__block__text" :class="{
-        'calender__block__text--today':
-          selectedDate.month === filteredMonths.indexOf(item.value) + 1 &&
-          item.zone === 'original',
-      }">
+      <span
+        v-for="(item, i) in scrollableMonths"
+        :key="i"
+        class="calender__block__text"
+        :class="{
+          'calender__block__text--today':
+            selectedDate.month === filteredMonths.indexOf(item.value) + 1 &&
+            item.zone === 'original',
+        }"
+      >
         {{ item.value }}
       </span>
     </div>
     <div class="calender__block" ref="yearColumnRef" @scroll="handleYearScroll">
-      <span v-for="(item, i) in scrollableYears" :key="i" class="calender__block__text" :class="{
-        'calender__block__text--today':
-          selectedDate.year === item.value && item.zone === 'original',
-      }">
+      <span
+        v-for="(item, i) in scrollableYears"
+        :key="i"
+        class="calender__block__text"
+        :class="{
+          'calender__block__text--today':
+            selectedDate.year === item.value && item.zone === 'original',
+        }"
+      >
         {{ item.value }}
       </span>
     </div>
