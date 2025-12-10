@@ -17,6 +17,7 @@ if you want to use it normal use this code and add the css import to your main.j
 ```vue
 <script setup>
 import { ref } from "vue";
+import "moli-vue-date-picker/dist/moli-vue-date-picker.css";
 const date = ref("")
 </script>
 
@@ -25,23 +26,12 @@ const date = ref("")
 </template>
 ```
 
-``` js
-import { createApp } from "vue";
-import App from "./App.vue";
-import DatePicker from "moli-vue-date-picker";
-import "moli-vue-date-picker/dist/moli-vue-date-picker.css";
-
-const app = createApp(App);
-app.use(DatePicker);
-app.mount("#app");
-
-```
-
 if you want to access to the events that the library provides, use this code
 
 ```vue
 <script setup>
 import { ref } from "vue";
+import "moli-vue-date-picker/dist/moli-vue-date-picker.css";
 const date = ref("")
 </script>
 
@@ -58,6 +48,7 @@ if you want to declare the calender headless use this code
 ```vue
 <script setup>
 import { ref } from "vue";
+import "moli-vue-date-picker/dist/moli-vue-date-picker.css";
 const date = ref("")
 const show = ref(false)
 </script>
@@ -66,6 +57,205 @@ const show = ref(false)
   <date-picker v-model="date" @close="show = false" headless v-if="show" />
   <button @click="show = true">show the calender</button>
 </template>
+```
+
+if you want to customize the date picker by yourself:
+
+```vue
+<script setup>
+import { ref } from 'vue';
+import "moli-vue-date-picker/dist/moli-vue-date-picker.css";
+const date = ref("")
+</script>
+
+<template>
+  <DatePicker v-model="date" />
+</template>
+
+<style lang="scss">
+:root {
+  --CSS-VARIABLE: YOUR_VALUE;
+}
+</style>
+
+```
+
+``` css
+
+:root {
+  /* Color palette */
+  --primary-200: #cee0fc;
+  --primary-400: #84b3fe;
+  --primary-600: #2471eb;
+  --primary-main: #2f7bf5;
+  --gray-100: #f6f8ff;
+  --gray-200: #dadce5;
+  --gray-400: #a2a5b0;
+  --text-white: #ffffff;
+  --text-light-info: #2d89e9;
+  --text-dark-primary: #f4f4f4;
+  --text-light-base: #0e101c;
+  --text-light-base2: #5a5a5a;
+  --bg-light-default: #fafafa;
+  --bg-white: #ffffff;
+  --bg-gradiant-start: #cee0fc26;
+  --bg-gradiant-end: #cee0fc;
+  --input-background: #eee;
+  --input-border: #dcdcdc;
+
+  /* Fonts */
+  --font-weight-semibold: 600;
+
+  /* Spacing (rem) */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 0.75rem;
+  --space-lg: 1rem;
+  --space-xl: 1.25rem;
+  --space-xxl: 1.5rem;
+
+  /* Font sizes */
+  --font-xs: 0.75rem;
+  --font-sm: 0.875rem;
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.625rem;
+  --radius-xl: 3.75rem;
+
+  /* Shadows */
+  --shadow-container-mobile: -4.25rem 3.875rem 11rem #0000001a;
+
+  /* Breakpoints */
+  --md: 768px;
+
+  /* COMPONENTS VARIABLES */
+
+  /* Layout sizes */
+  --container-width: 22.5rem;
+  --container-max-width-mobile: 37.5rem;
+  --container-padding: var(--space-xxl) var(--space-lg) var(--space-md) var(--space-lg);
+  --container-border-radius: var(--radius-md);
+  --container-max-height-mobile: 28.1875rem;
+  --container-background-color: var(--gray-100);
+  --container-mobile-background-color: var(--bg-white);
+  --container-mobile-padding: 0;
+  --container-mobile-border-radius: var(--radius-xl);
+
+  /* Mobile calendar sizes */
+  --calender-width: 22.5rem;
+  --calender-height: 12.9375rem;
+  --calender-gap: 3.5rem;
+  --calender-block-width: 4.25rem;
+  --calender-block-gap: var(--space-md);
+  --calender-text-width: 4rem;
+  --calender-text-color: var(--gray-400);
+  --calender-text-line-height: 2rem;
+  --calender-text-font-weight: var(--font-weight-semibold);
+  --calender-text-today-color: var(--primary-main);
+  --calender-text-today-border-top: 1px solid var(--primary-main);
+  --calender-text-today-border-bottom: 1px solid var(--primary-main);
+
+  /* calender grid */
+  --calender-grid-gap: var(--space-md);
+  --calender-grid-max-height: 16rem;
+  --calender-grid-columns: 3;
+  --calender-grid-rows: 4;
+
+  /* Desktop calender sizes */
+  --month-width: 5.625rem;
+  --month-height: 3.4375rem;
+  --year-width: 5.625rem;
+  --year-height: 3.4375rem;
+  --day-size: 2rem;
+  --locale-width: 6.25rem;
+  --locale-dropdown-top: 19%;
+  --locale-dropdown-left: 68%;
+  --locale-border-radius: var(--radius-sm);
+  --locale-background-color: var(--gray-200);
+  --locale-item-padding: var(--space-sm);
+  --locale-item-font-size: var(--font-xs);
+  --locale-item-color: var(--text-light-base);
+
+  /* Header */
+  --header-margin-bottom: var(--space-md);
+  --header-height: var(--space-xxl);
+  --header-title-line-height: 1rem;
+  --header-title-font-size: var(--font-xs);
+  --header-title-color: var(--text-light-base);
+  --header-close-icon-width: var(--space-xxl);
+  --header-close-icon-height: var(--space-xxl);
+
+  /* Weekday/days/years/months/filter sizes and colors */
+  --content-gap: var(--space-xl);
+  --filter-height: var(--space-xxl);
+  --filter-font-size: var(--font-xs);
+  --filter-color: var(--text-light-base);
+  --filter-gap: var(--space-xs);
+  --weekday-width: 1.875rem;
+  --weekday-height: 1rem;
+  --weekday-background-color: var(--bg-light-default);
+  --weekday-border-radius: var(--radius-sm);
+  --weekday-padding-inline: var(--space-xs);
+  --weekday-day-font-size: var(--font-xs);
+  --weekday-day-color: var(--text-light-base);
+  --days-gap: var(--space-lg);
+  --day-gradient: linear-gradient(to right, var(--bg-gradiant-start), var(--bg-gradiant-end));
+  --day-gradient-radius: 0.625rem;
+  --day-border-radius: var(--radius-lg);
+  --day-font-size: var(--font-sm);
+  --day-color: var(--text-light-base);
+  --day-hover-background-color: var(--primary-200);
+  --years-padding-right: var(--space-md);
+  --year-border: 1px solid var(--gray-200);
+  --year-border-radius: var(--radius-lg);
+  --year-line-height: 1.25rem;
+  --year-font-size: var(--font-xs);
+  --year-color: var(--text-light-base2);
+  --year-selected-background-color: var(--primary-main);
+  --year-selected-color: var(--text-dark-primary);
+  --month-border: 1px solid var(--gray-200);
+  --month-border-radius: var(--radius-lg);
+  --month-line-height: 1.25rem;
+  --month-color: var(--text-light-base2);
+  --month-font-size: var(--font-xs);
+  --month-selected-background-color: var(--primary-main);
+  --month-selected-color: var(--text-dark-primary);
+
+  /* Misc */
+  --scrollbar-width-sm: 0.25rem;
+  --scrollbar-track-border-radius: var(--radius-lg);
+  --scrollbar-track-background-color: var(--primary-200);
+  --scrollbar-track-border-left: 1px solid var(--bg-white);
+  --scrollbar-track-border-right: 1px solid var(--bg-white);
+  --scrollbar-thumb-border-radius: var(--radius-sm);
+  --scrollbar-thumb-background-color: var(--primary-400);
+
+  --text-today-size: 0.625rem;
+  --text-today-line: 0.75rem;
+  --text-today-color: var(--text-light-info);
+  --text-not-current-color: var(--gray-400);
+
+  /* range/selected */
+  --range-background-color: var(--primary-main);
+  --range-hover-background-color: var(--primary-main);
+  --range-hover-color: var(--text-dark-primary);
+
+  /* Base button */
+  --base-button-height: 3rem;
+  --base-button-inline-padding: 1rem;
+  --base-button-text: var(--text-white);
+
+  /* Base input */
+  --base-input-background-color: var(--bg-white);
+  --base-input-width: 22.5rem;
+  --base-input-border: 1px solid var(--input-border);
+  --base-input-button-background: var(--input-background);
+  --base-input-button-width: 1.75rem;
+  --base-input-button-height: 1.75rem;
+}
+
+
 ```
 
 ## 🎯 Common Props
@@ -89,6 +279,9 @@ calender component accept these common props:
 Internationalization plugin for Vue.js
 
 ## Change log
+
+#### 0.5.0 (2025-12-10)
+- feat: add customize feature for date picker and input
 
 #### 0.4.5 (2025-12-09)
 - refactor: reduce the package bundle size to 37kb and makes the project better
