@@ -22,8 +22,6 @@ const langDates = {
       ],
       label: "شمسی",
       direction: "rtl",
-      mainText: "تاریخ را انتخاب نمایید",
-      todayText: "امروز",
     },
     gregorian: {
       provider: gregorianProvider,
@@ -44,8 +42,6 @@ const langDates = {
       ],
       label: "gregorian",
       direction: "ltr",
-      mainText: "please select a date",
-      todayText: "today",
     },
   },
 };
