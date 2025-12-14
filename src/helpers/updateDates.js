@@ -1,7 +1,7 @@
 import sameDate from "@/utils/sameDate";
 
 export const updateSingle = (cell, date) => {
-  if (cell.current && cell.enable) date.single = { ...cell };
+  if (cell.current && cell.enable) date.single = { ...date.single, ...cell };
 };
 
 export const updateMultiple = (cell, date) => {
