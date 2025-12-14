@@ -266,6 +266,27 @@ const date = ref("")
 
 ```
 
+## inject your UI
+
+you can inject your UI or change the styles with this code.
+each template belongs to each component in the date picker
+
+``` vue
+<template>
+  <date-picker format="YYYY/MM/DD" mode="range" v-model="date">
+    <template #submit-button="{ submit, locale }"></template>
+    <template #weekdays="{ weekdays }"></template>
+    <template #grid-filter="{ currentMonthText, currentView, year, updateCurrentView }"> </template>
+    <template #grid-clock="{ onChange }"> </template>
+    <template #input-field="{ value, openCalendar, mode }"></template>
+    <template #locale-dropdown="{ locales, changeLocale }"> </template>
+    <template #day-cell="{ cell, selectDay, isToday, todayText }"> </template>
+    <template #month-cell="{ month, selected, selectMonth }"> </template>
+    <template #year-cell="{ year, selected, locale, selectYear }"> </template>
+  </date-picker>
+</template>
+```
+
 ## 🎯 Common Props
 
 calender component accept these common props:
@@ -291,6 +312,7 @@ Internationalization plugin for Vue.js
 
 #### 0.6.0 (2025-12-14)
 - feat: add time picker to the project
+- feat: add customization ui feature that consumer can inject their UI 
 
 #### 0.5.0 (2025-12-10)
 - feat: add customize feature for date picker and input
