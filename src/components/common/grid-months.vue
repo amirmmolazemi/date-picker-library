@@ -1,6 +1,5 @@
 <script setup>
 defineProps({
-  currentView: { type: String, required: true },
   selectedDates: { type: Object, required: true },
   availableMonths: { type: Array, required: true },
 });
@@ -9,7 +8,7 @@ defineEmits(["clicked"]);
 </script>
 
 <template>
-  <div class="content__months" v-if="currentView === 'months'">
+  <div class="content__months">
     <slot
       name="month-cell"
       v-for="(month, index) in availableMonths"

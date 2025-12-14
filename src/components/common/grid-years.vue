@@ -2,7 +2,6 @@
 import { englishToPersianDigit } from "@/utils/replaceNumbers";
 
 defineProps({
-  currentView: { type: String, required: true },
   selectedDates: { type: Object, required: true },
   availableYears: { type: Array, required: true },
   locale: { type: String, default: "jalaali" },
@@ -12,7 +11,7 @@ defineEmits(["clicked"]);
 </script>
 
 <template>
-  <div class="content__years" v-if="currentView === 'years'">
+  <div class="content__years">
     <slot
       name="year-cell"
       v-for="year in availableYears"

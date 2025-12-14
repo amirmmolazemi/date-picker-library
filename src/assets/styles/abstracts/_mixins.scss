@@ -13,12 +13,17 @@
   justify-content: space-between;
   grid-template-columns: repeat($columns, $width);
   grid-template-rows: repeat($rows, $height);
-  gap: var(--calender-grid-gap);
+  gap: var(--calendar-grid-gap);
   overflow-y: auto;
-  max-height: var(--calender-grid-max-height);
+  max-height: var(--calendar-grid-max-height);
 }
 
-@mixin filter-item($justify: center, $align: center, $gap: var(--filter-gap), $color: var(--filter-color)) {
+@mixin filter-item(
+  $justify: center,
+  $align: center,
+  $gap: var(--filter-gap),
+  $color: var(--filter-color)
+) {
   @include flex($justify, $align, $gap);
   font-size: var(--filter-font-size);
   color: $color;

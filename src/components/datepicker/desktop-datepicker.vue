@@ -20,7 +20,7 @@ const props = defineProps({
   availableMonths: { type: Array, required: true },
   availableYears: { type: Array, required: true },
   today: { type: Object, required: true },
-  calenderEngine: { type: Object, required: true },
+  calendarEngine: { type: Object, required: true },
   pickerType: { type: String, required: true },
   submitText: { type: Object, required: true },
   selectDateText: { type: Object, required: true },
@@ -127,14 +127,14 @@ const submitSelection = () => {
       name="grid-filter"
       :currentMonthText="providerData.currentMonthText"
       :currentView="currentView"
-      :year="selectedDates.single.year || calenderEngine.calendarGrid.value[0].year"
+      :year="selectedDates.single.year || calendarEngine.calendarGrid.value[0].year"
       :updateCurrentView="(view) => (currentView = view.current)"
       v-if="pickerType !== 'clock'"
     >
       <grid-filter
         :current-month-text="providerData.currentMonthText.value"
         :current-view="currentView"
-        :year="selectedDates.single.year || calenderEngine.calendarGrid.value[0].year"
+        :year="selectedDates.single.year || calendarEngine.calendarGrid.value[0].year"
         @update:current-view="currentView = $event.current"
       >
         <template #locale-dropdown="slotProps">
@@ -166,14 +166,13 @@ const submitSelection = () => {
       <grid-clock @changed="handleTimeChange" />
     </slot>
     <grid-days
-      v-if="pickerType !== 'clock'"
+      v-if="pickerType !== 'clock' && currentView === 'days'"
       :selection-mode="selectionMode"
-      :current-view="currentView"
       :selected-dates="selectedDates"
       :today="today"
       :locale="locale"
       :today-text="todayText[locale]"
-      :calender-engine="calenderEngine"
+      :calendar-engine="calendarEngine"
       :dir="providerData.direction.value"
       @clicked="handleDayClick"
     >
@@ -182,8 +181,7 @@ const submitSelection = () => {
       </template>
     </grid-days>
     <grid-months
-      v-if="pickerType !== 'clock'"
-      :current-view="currentView"
+      v-if="pickerType !== 'clock' && currentView === 'months'"
       :selected-dates="selectedDates.single.month ? selectedDates.single : today"
       :available-months="availableMonths"
       :dir="providerData.direction.value"
@@ -194,8 +192,7 @@ const submitSelection = () => {
       </template>
     </grid-months>
     <grid-years
-      v-if="pickerType !== 'clock'"
-      :current-view="currentView"
+      v-if="pickerType !== 'clock' && currentView === 'years'"
       :selected-dates="selectedDates.single.month ? selectedDates.single : today"
       :available-years="availableYears"
       :dir="providerData.direction.value"

@@ -1,18 +1,18 @@
 @use "../abstracts/variables" as *;
 @use "../abstracts/mixins" as *;
 
-.calender {
-  width: var(--calender-width);
-  height: var(--calender-height);
+.calendar {
+  width: var(--calendar-width);
+  height: var(--calendar-height);
   display: none;
-  gap: var(--calender-gap);
+  gap: var(--calendar-gap);
   justify-content: center;
   align-items: center;
 
   &__block {
-    width: var(--calender-block-width);
-    height: var(--calender-height);
-    @include flex(start, center, var(--calender-block-gap, column));
+    width: var(--calendar-block-width);
+    height: var(--calendar-height);
+    @include flex(start, center, var(--calendar-block-gap, column));
     overflow-y: scroll;
     position: relative;
     scroll-snap-type: y mandatory;
@@ -22,23 +22,23 @@
     }
 
     &__text {
-      width: var(--calender-text-width);
-      line-height: var(--calender-text-line-height);
-      font-weight: var(--calender-text-font-weight);
-      color: var(--calender-text-color);
+      width: var(--calendar-text-width);
+      line-height: var(--calendar-text-line-height);
+      font-weight: var(--calendar-text-font-weight);
+      color: var(--calendar-text-color);
       scroll-snap-align: center;
       text-align: center;
       &--today {
-        color: var(--calender-text-today-color);
-        border-top: var(--calender-text-today-border-top);
-        border-bottom: var(--calender-text-today-border-bottom);
+        color: var(--calendar-text-today-color);
+        border-top: var(--calendar-text-today-border-top);
+        border-bottom: var(--calendar-text-today-border-bottom);
       }
     }
   }
 }
 
 @media (max-width: var(--md)) {
-  .calender {
+  .calendar {
     display: flex;
   }
 }

@@ -82,8 +82,8 @@
 
   &__months {
     @include calendar-grid(
-      var(--calender-grid-columns),
-      var(--calender-grid-rows),
+      var(--calendar-grid-columns),
+      var(--calendar-grid-rows),
       var(--month-height),
       var(--month-width)
     );
@@ -108,8 +108,8 @@
 
   &__years {
     @include calendar-grid(
-      var(--calender-grid-columns),
-      var(--calender-grid-rows),
+      var(--calendar-grid-columns),
+      var(--calendar-grid-rows),
       var(--year-height),
       var(--year-width)
     );

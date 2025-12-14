@@ -18,7 +18,7 @@ if you want to use it normal use this code and add the css import to your main.j
 <script setup>
 import { ref } from "vue";
 import "moli-vue-date-picker/dist/moli-vue-date-picker.css";
-const date = ref("")
+const date = ref("");
 </script>
 
 <template>
@@ -32,30 +32,35 @@ if you want to access to the events that the library provides, use this code
 <script setup>
 import { ref } from "vue";
 import "moli-vue-date-picker/dist/moli-vue-date-picker.css";
-const date = ref("")
+const date = ref("");
 </script>
 
 <template>
-  <date-picker v-model="date" @close="console.log('close')" @open="console.log('open')" @changed="console.log('changed')" />
+  <date-picker
+    v-model="date"
+    @close="console.log('close')"
+    @open="console.log('open')"
+    @changed="console.log('changed')"
+  />
 </template>
 ```
 
-if you want to declare the calender headless use this code
+if you want to declare the calendar headless use this code
 
 > using `@close` is required to handle the visibility.
-> when you are using the calender, calender is always visible and you have a full control to change the visibility
+> when you are using the calendar, calendar is always visible and you have a full control to change the visibility
 
 ```vue
 <script setup>
 import { ref } from "vue";
 import "moli-vue-date-picker/dist/moli-vue-date-picker.css";
-const date = ref("")
-const show = ref(false)
+const date = ref("");
+const show = ref(false);
 </script>
 
 <template>
   <date-picker v-model="date" @close="show = false" headless v-if="show" />
-  <button @click="show = true">show the calender</button>
+  <button @click="show = true">show the calendar</button>
 </template>
 ```
 
@@ -63,9 +68,9 @@ if you want to customize the date picker by yourself:
 
 ```vue
 <script setup>
-import { ref } from 'vue';
+import { ref } from "vue";
 import "moli-vue-date-picker/dist/moli-vue-date-picker.css";
-const date = ref("")
+const date = ref("");
 </script>
 
 <template>
@@ -77,11 +82,9 @@ const date = ref("")
   --CSS-VARIABLE: YOUR_VALUE;
 }
 </style>
-
 ```
 
-``` css
-
+```css
 :root {
   /* Color palette */
   --primary-200: #cee0fc;
@@ -143,26 +146,26 @@ const date = ref("")
   --container-mobile-border-radius: var(--radius-xl);
 
   /* Mobile calendar sizes */
-  --calender-width: 22.5rem;
-  --calender-height: 12.9375rem;
-  --calender-gap: 3.5rem;
-  --calender-block-width: 4.25rem;
-  --calender-block-gap: var(--space-md);
-  --calender-text-width: 4rem;
-  --calender-text-color: var(--gray-400);
-  --calender-text-line-height: 2rem;
-  --calender-text-font-weight: var(--font-weight-semibold);
-  --calender-text-today-color: var(--primary-main);
-  --calender-text-today-border-top: 1px solid var(--primary-main);
-  --calender-text-today-border-bottom: 1px solid var(--primary-main);
+  --calendar-width: 22.5rem;
+  --calendar-height: 12.9375rem;
+  --calendar-gap: 3.5rem;
+  --calendar-block-width: 4.25rem;
+  --calendar-block-gap: var(--space-md);
+  --calendar-text-width: 4rem;
+  --calendar-text-color: var(--gray-400);
+  --calendar-text-line-height: 2rem;
+  --calendar-text-font-weight: var(--font-weight-semibold);
+  --calendar-text-today-color: var(--primary-main);
+  --calendar-text-today-border-top: 1px solid var(--primary-main);
+  --calendar-text-today-border-bottom: 1px solid var(--primary-main);
 
-  /* calender grid */
-  --calender-grid-gap: var(--space-md);
-  --calender-grid-max-height: 16rem;
-  --calender-grid-columns: 3;
-  --calender-grid-rows: 4;
+  /* calendar grid */
+  --calendar-grid-gap: var(--space-md);
+  --calendar-grid-max-height: 16rem;
+  --calendar-grid-columns: 3;
+  --calendar-grid-rows: 4;
 
-  /* Desktop calender sizes */
+  /* Desktop calendar sizes */
   --month-width: 5.625rem;
   --month-height: 3.4375rem;
   --year-width: 5.625rem;
@@ -222,7 +225,7 @@ const date = ref("")
   --month-selected-background-color: var(--primary-main);
   --month-selected-color: var(--text-dark-primary);
 
-  /* Time Picker */ 
+  /* Time Picker */
   --clockPicker-height: 16rem;
   --clockPicker-separator-font-size: 2.5rem;
   --clockPicker-font-size: 3.125rem;
@@ -263,7 +266,6 @@ const date = ref("")
   --base-input-button-width: 1.75rem;
   --base-input-button-height: 1.75rem;
 }
-
 ```
 
 ## inject your UI
@@ -271,7 +273,7 @@ const date = ref("")
 you can inject your UI or change the styles with this code.
 each template belongs to each component in the date picker
 
-``` vue
+```vue
 <template>
   <date-picker format="YYYY/MM/DD" mode="range" v-model="date">
     <template #submit-button="{ submit, locale }"></template>
@@ -289,67 +291,79 @@ each template belongs to each component in the date picker
 
 ## 🎯 Common Props
 
-calender component accept these common props:
+calendar component accept these common props:
 
-| Prop     | Type      | Default                   | Description                 | Other options             |
-| -------- | --------- | ------------------------- | --------------------------- | ------------------------- |
-| `format` | `any`     | `"YYYY/MM/DD"`            | Formating the dates         | `timestamp` , `any format with YYYY,MM,DD` , `{ year: "YYYY", month: "MM", day: "DD" }` |
-| `min`    | `string`  | `1400/1/1`                | min age that calender shows | `any date`                |
-| `max`    | `string`  | `1405/1/1`                | max age that calender shows | `any date`                |
-|`defaults`| `array`   | `[]`                      |default values if user don't choose the date | `any date`|
-| `mode`   | `string`  | `single`                  | change the mode of calender | `range` `multiple`        |
-|`headless`| `boolean` | `false`                   | assign to a input or not    | `true`                    |
-|`pickerType`| `string` | `both`                   | choose to have date picker or time picker    | `clock` `date`                    |
+| Prop         | Type      | Default        | Description                                  | Other options                                                                           |
+| ------------ | --------- | -------------- | -------------------------------------------- | --------------------------------------------------------------------------------------- |
+| `format`     | `any`     | `"YYYY/MM/DD"` | Formating the dates                          | `timestamp` , `any format with YYYY,MM,DD` , `{ year: "YYYY", month: "MM", day: "DD" }` |
+| `min`        | `string`  | `1400/1/1`     | min age that calendar shows                  | `any date`                                                                              |
+| `max`        | `string`  | `1405/1/1`     | max age that calendar shows                  | `any date`                                                                              |
+| `defaults`   | `array`   | `[]`           | default values if user don't choose the date | `any date`                                                                              |
+| `mode`       | `string`  | `single`       | change the mode of calendar                  | `range` `multiple`                                                                      |
+| `headless`   | `boolean` | `false`        | assign to a input or not                     | `true`                                                                                  |
+| `pickerType` | `string`  | `both`         | choose to have date picker or time picker    | `clock` `date`                                                                          |
 
 ## Built With
 
 - [Vue.js](https://vuejs.org/) - The Progressive JavaScript Framework.
 - [date-fns](https://date-fns.org/) - A calendar system plugin.
 - [i18n](https://vue-i18n.intlify.dev/) - A
-Internationalization plugin for Vue.js
+  Internationalization plugin for Vue.js
 
 ## Change log
 
 #### 0.6.0 (2025-12-14)
+
 - feat: add time picker to the project
-- feat: add customization ui feature that consumer can inject their UI 
+- feat: add customization ui feature that consumer can inject their UI
 
 #### 0.5.0 (2025-12-10)
+
 - feat: add customize feature for date picker and input
 
 #### 0.4.5 (2025-12-09)
+
 - refactor: reduce the package bundle size to 37kb and makes the project better
 
 #### 0.4.2 (2025-12-07)
+
 - fix: fix the mobile device bug for formatting date
 - docs: add the new change log for document
 
 #### 0.4.0 (2025-12-07)
+
 - feat: add new formats to return ( add timestamp and objectTemplate )
 - docs: add new props options
 
 #### 0.3.1 (2025-12-06)
+
 - docs: fix some issues in document for wrong syntax
 
 #### 0.3.0 (2025-12-06)
+
 - feat: add the localization options for gregorian and jalaali
 
 #### 0.2.0 (2025-12-05)
+
 - feat: add the defaults values as a props
 - fix: fix the selecting issues for months and years
 
 #### 0.1.1 (2025-12-03)
+
 - fix: fix the selection issue in ranges and multiples
 
 #### 0.1.0 (2025-12-02)
+
 - feat: add multiple selection to the project
 
 #### 0.0.2 (2025-12-02)
+
 - fix: fix the css minification in the package
 - fix: fix the styles imports for performance
-- feat: migrate to date-fns instead of moment.js 
+- feat: migrate to date-fns instead of moment.js
 
 #### 0.0.1 (2025-12-01)
+
 - docs: format document and improve readability
 
 ### 0.0.1 (2025-11-30)

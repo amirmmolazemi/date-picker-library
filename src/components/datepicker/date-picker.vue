@@ -4,7 +4,7 @@ import { useI18n } from "vue-i18n";
 import { desktopSlots } from "@/constants/desktopSlots";
 import dateFormatter from "@/helpers/dateFormatter";
 import useDateDefaults from "@/composables/useDateDefaults";
-import useCalenderCore from "@/composables/useCalenderCore";
+import useCalendarCore from "@/composables/useCalendarCore";
 import useGetToday from "@/composables/useGetToday";
 import DesktopDatepicker from "@/components/datepicker/desktop-datepicker.vue";
 import BaseInput from "@/components/ui/base-input.vue";
@@ -45,12 +45,13 @@ const inputValue = defineModel();
 const { locale, getLocaleMessage } = useI18n();
 const today = computed(() => useGetToday(locale.value));
 const { defaultDates } = useDateDefaults(props);
-const { calenderEngine, availableMonths, availableYears } = useCalenderCore(
+const { calendarEngine, availableMonths, availableYears } = useCalendarCore(
   props,
-  today,
+  today.value,
   locale,
   getLocaleMessage,
 );
+
 const isCalendarVisible = ref(props.headless);
 
 const formatDate = (date) => {
@@ -75,8 +76,7 @@ const closeHandler = () => {
 const changeDateHandler = (item) => {
   if (item?.status) {
     const { year, month, day } = item;
-    const selectedDate = `${year}/${month}/${day}`;
-    const formattedDate = dateFormatter(selectedDate, props.format);
+    const formattedDate = dateFormatter(`${year}/${month}/${day}`, props.format);
     inputValue.value = formattedDate;
     if (typeof formattedDate === "object") inputValue.value = formattedDate.text;
   }
@@ -94,10 +94,10 @@ const changeDateHandler = (item) => {
         @date="formatDate"
         @changed="changeDateHandler"
         @closed="closeHandler"
-        @update-month="calenderEngine.updateMonth($event)"
-        @update-year="calenderEngine.updateYear($event)"
+        @update-month="calendarEngine.updateMonth($event)"
+        @update-year="calendarEngine.updateYear($event)"
         :selectionMode="props.mode"
-        :calender-engine="calenderEngine"
+        :calendar-engine="calendarEngine"
         :today="today"
         :picker-type="pickerType"
         :select-date-text="selectDateText"
@@ -112,9 +112,9 @@ const changeDateHandler = (item) => {
         :availableMonths="availableMonths"
         :availableYears="availableYears"
         @changed="changeDateHandler"
-        @update-month="calenderEngine.updateMonth($event)"
-        @update-year="calenderEngine.updateYear($event)"
-        :calender-engine="calenderEngine"
+        @update-month="calendarEngine.updateMonth($event)"
+        @update-year="calendarEngine.updateYear($event)"
+        :calendar-engine="calendarEngine"
         :today="today"
         :min-date="min"
         :max-date="max"

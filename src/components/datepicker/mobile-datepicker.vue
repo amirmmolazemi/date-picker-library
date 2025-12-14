@@ -2,13 +2,13 @@
 import { ref, reactive, computed, watch, onMounted, nextTick } from "vue";
 import { useInfiniteScroll } from "@vueuse/core";
 import { englishToPersianDigit, persianToEnglish } from "@/utils/replaceNumbers";
-import { parseDate } from "@/utils/parseDate";
+import { splitDateParts } from "@/utils/splitDateParts";
 import wrapList from "@/helpers/wrapList";
 
 const props = defineProps({
   availableMonths: { type: Array, required: true },
   availableYears: { type: Array, required: true },
-  calenderEngine: { type: Object, required: true },
+  calendarEngine: { type: Object, required: true },
   today: { type: Object, required: true },
   minDate: { type: String, default: "1404/01/08", required: true },
   maxDate: { type: String, default: "2026/12/08", required: true },
@@ -16,8 +16,8 @@ const props = defineProps({
 
 const emit = defineEmits(["changed", "update-month", "update-year"]);
 
-const minDate = parseDate(props.minDate);
-const maxDate = parseDate(props.maxDate);
+const minDate = splitDateParts(props.minDate);
+const maxDate = splitDateParts(props.maxDate);
 
 const selectedDate = reactive({ ...props.today });
 const dayColumnRef = ref(null);
@@ -40,7 +40,7 @@ const filteredMonths = computed(() => {
 });
 
 const filteredDays = computed(() => {
-  const grid = props.calenderEngine.calendarGrid.value.filter((i) => i.current);
+  const grid = props.calendarEngine.calendarGrid.value.filter((i) => i.current);
   const days = grid.map((i) => i.day);
   if (selectedDate.year === minDate[0] && selectedDate.month === minDate[1])
     return days.filter((day) => day >= minDate[2]);
@@ -119,7 +119,7 @@ watch(selectedDate, () => {
 });
 
 const scrollColumnToCurrentDate = (ref) => {
-  const element = ref.value?.querySelector(".calender__block__text--today");
+  const element = ref.value?.querySelector(".calendar__block__text--today");
   if (element) element.scrollIntoView({ block: "center" });
 };
 
@@ -131,27 +131,27 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="calender">
-    <div class="calender__block" ref="dayColumnRef" @scroll="handleDayScroll">
+  <div class="calendar">
+    <div class="calendar__block" ref="dayColumnRef" @scroll="handleDayScroll">
       <span
         v-for="(item, i) in scrollableDays"
         :key="i"
-        class="calender__block__text"
+        class="calendar__block__text"
         :class="{
-          'calender__block__text--today':
+          'calendar__block__text--today':
             selectedDate.day === item.value && item.zone === 'original',
         }"
       >
         {{ englishToPersianDigit(item.value) }}
       </span>
     </div>
-    <div class="calender__block" ref="monthColumnRef" @scroll="handleMonthScroll">
+    <div class="calendar__block" ref="monthColumnRef" @scroll="handleMonthScroll">
       <span
         v-for="(item, i) in scrollableMonths"
         :key="i"
-        class="calender__block__text"
+        class="calendar__block__text"
         :class="{
-          'calender__block__text--today':
+          'calendar__block__text--today':
             selectedDate.month === filteredMonths.indexOf(item.value) + 1 &&
             item.zone === 'original',
         }"
@@ -159,13 +159,13 @@ onMounted(async () => {
         {{ item.value }}
       </span>
     </div>
-    <div class="calender__block" ref="yearColumnRef" @scroll="handleYearScroll">
+    <div class="calendar__block" ref="yearColumnRef" @scroll="handleYearScroll">
       <span
         v-for="(item, i) in scrollableYears"
         :key="i"
-        class="calender__block__text"
+        class="calendar__block__text"
         :class="{
-          'calender__block__text--today':
+          'calendar__block__text--today':
             selectedDate.year === item.value && item.zone === 'original',
         }"
       >

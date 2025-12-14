@@ -3,7 +3,7 @@ import { computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import { englishToPersianDigit } from "@/utils/replaceNumbers";
 import IconChevron from "@/components/icons/icon-chevron.vue";
-import { langDates } from "@/constants/langDates";
+import calendarLocales from "@/constants/calendarLocales";
 
 const props = defineProps({
   currentView: { type: String, required: true },
@@ -20,7 +20,7 @@ const chevronStyle = computed(() => ({
 const formattedYear = computed(() =>
   locale === "gregorian" ? props.year : englishToPersianDigit(props.year),
 );
-const locales = computed(() => Object.keys(langDates.langs));
+const locales = computed(() => Object.keys(calendarLocales));
 
 const changeLocale = (selectedLocale) => {
   showOptions.value = false;
