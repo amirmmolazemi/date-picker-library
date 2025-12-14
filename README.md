@@ -285,6 +285,7 @@ each template belongs to each component in the date picker
     <template #day-cell="{ cell, selectDay, isToday, todayText }"> </template>
     <template #month-cell="{ month, selected, selectMonth }"> </template>
     <template #year-cell="{ year, selected, locale, selectYear }"> </template>
+    <template #close-icon="{ close }"> </template>
   </date-picker>
 </template>
 ```

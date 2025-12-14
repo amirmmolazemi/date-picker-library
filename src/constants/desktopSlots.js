@@ -7,4 +7,5 @@ export const desktopSlots = [
   "day-cell",
   "month-cell",
   "year-cell",
+  "close-icon",
 ];

@@ -119,7 +119,9 @@ const submitSelection = () => {
 
 <template>
   <header class="header">
-    <icon-close class="header__close" @click="$emit('closed')" />
+    <slot name="close-icon" :close="() => $emit('closed')">
+      <icon-close class="header__close" @click="$emit('closed')" />
+    </slot>
     <p class="header__title">{{ selectDateText[locale] }}</p>
   </header>
   <div class="content">
