@@ -2,10 +2,6 @@
 import IconArrow from "@/components/icons/icon-arrow.vue";
 import { reactive, watch } from "vue";
 
-defineProps({
-  currentView: { type: String, required: true },
-});
-
 const time = reactive({ hour: "00", minute: "00" });
 const TIME_LIMITS = { hour: 23, minute: 59 };
 
@@ -31,7 +27,7 @@ const decrementTimeUnit = (type) => {
 </script>
 
 <template>
-  <div v-if="currentView === 'clock'" class="content__clockPicker">
+  <div class="content__clockPicker">
     <div class="content__clockPicker__minute">
       <icon-arrow
         class="content__clockPicker__minute__increment"
