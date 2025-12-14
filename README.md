@@ -222,6 +222,15 @@ const date = ref("")
   --month-selected-background-color: var(--primary-main);
   --month-selected-color: var(--text-dark-primary);
 
+  /* Time Picker */ 
+  --clockPicker-height: 16rem;
+  --clockPicker-separator-font-size: 2.5rem;
+  --clockPicker-font-size: 3.125rem;
+  --clockPicker-gap: 3.125rem;
+  --clockPicker-increment-rotate: 90deg;
+  --clockPicker-decrement-rotate: -90deg;
+  --clockPicker-texts-gap: 0.625rem;
+
   /* Misc */
   --scrollbar-width-sm: 0.25rem;
   --scrollbar-track-border-radius: var(--radius-lg);
@@ -255,7 +264,6 @@ const date = ref("")
   --base-input-button-height: 1.75rem;
 }
 
-
 ```
 
 ## 🎯 Common Props
@@ -270,6 +278,7 @@ calender component accept these common props:
 |`defaults`| `array`   | `[]`                      |default values if user don't choose the date | `any date`|
 | `mode`   | `string`  | `single`                  | change the mode of calender | `range` `multiple`        |
 |`headless`| `boolean` | `false`                   | assign to a input or not    | `true`                    |
+|`pickerType`| `string` | `both`                   | choose to have date picker or time picker    | `clock` `date`                    |
 
 ## Built With
 
@@ -279,6 +288,9 @@ calender component accept these common props:
 Internationalization plugin for Vue.js
 
 ## Change log
+
+#### 0.6.0 (2025-12-14)
+- feat: add time picker to the project
 
 #### 0.5.0 (2025-12-10)
 - feat: add customize feature for date picker and input
