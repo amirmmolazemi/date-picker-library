@@ -129,9 +129,6 @@ const date = ref("");
   /* Shadows */
   --shadow-container-mobile: -4.25rem 3.875rem 11rem #0000001a;
 
-  /* Breakpoints */
-  --md: 768px;
-
   /* COMPONENTS VARIABLES */
 
   /* Layout sizes */

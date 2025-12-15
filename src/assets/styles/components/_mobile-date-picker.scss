@@ -12,7 +12,7 @@
   &__block {
     width: var(--calendar-block-width);
     height: var(--calendar-height);
-    @include flex(start, center, var(--calendar-block-gap, column));
+    @include flex(start, center, var(--calendar-block-gap), column);
     overflow-y: scroll;
     position: relative;
     scroll-snap-type: y mandatory;
@@ -37,7 +37,7 @@
   }
 }
 
-@media (max-width: var(--md)) {
+@media (max-width: 768px) {
   .calendar {
     display: flex;
   }
