@@ -18,7 +18,7 @@ const chevronStyle = computed(() => ({
   transform: showOptions.value ? "rotate(180deg)" : "rotate(0deg)",
 }));
 const formattedYear = computed(() =>
-  locale === "gregorian" ? props.year : englishToPersianDigit(props.year),
+  locale.value === "gregorian" ? props.year : englishToPersianDigit(props.year),
 );
 const locales = computed(() => Object.keys(calendarLocales));
 

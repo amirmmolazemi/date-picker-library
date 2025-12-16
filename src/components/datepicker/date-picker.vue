@@ -2,10 +2,11 @@
 import { computed, ref, watch } from "vue";
 import { useI18n } from "vue-i18n";
 import { desktopSlots } from "@/constants/desktopSlots";
-import dateFormatter from "@/helpers/dateFormatter";
+import { splitDateParts } from "@/utils/splitDateParts";
+import { useCalendar } from "@/composables/useCalendarCreator";
 import useDateDefaults from "@/composables/useDateDefaults";
-import useCalendarCore from "@/composables/useCalendarCore";
 import useGetToday from "@/composables/useGetToday";
+import dateFormatter from "@/helpers/dateFormatter";
 import DesktopDatepicker from "@/components/datepicker/desktop-datepicker.vue";
 import BaseInput from "@/components/ui/base-input.vue";
 import MobileDatepicker from "@/components/datepicker/mobile-datepicker.vue";
@@ -44,12 +45,17 @@ const inputValue = defineModel();
 const { locale, getLocaleMessage } = useI18n();
 const today = computed(() => useGetToday(locale.value));
 const { defaultDates } = useDateDefaults(props);
-const { calendarEngine, availableMonths, availableYears } = useCalendarCore(
-  props,
-  today.value,
-  locale,
-  getLocaleMessage,
+
+const provider = computed(() => getLocaleMessage(locale.value).provider);
+const availableMonths = computed(() => getLocaleMessage(locale.value).months);
+const calendarEngine = computed(() =>
+  useCalendar(provider.value, today.value, [props.min, props.max]),
 );
+const availableYears = computed(() => {
+  let start = splitDateParts(props.min)[0];
+  let end = splitDateParts(props.max)[0];
+  return [...Array(end - start + 1).keys()].map((i) => start + i);
+});
 
 const isCalendarVisible = ref(props.headless);
 
