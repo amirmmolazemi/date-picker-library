@@ -311,6 +311,9 @@ calendar component accept these common props:
 ## Change log
 
 #### 0.6.1 (2025-12-16)
+- fix: fix the localization calendar for gregorian 
+
+#### 0.6.1 (2025-12-16)
 - fix: fix the mobile container bug for showing the container 
 
 #### 0.6.0 (2025-12-14)
